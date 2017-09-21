@@ -1,0 +1,26 @@
+Friendship no dao, only entity
+fk  person_id
+fk  friend_id
+    date_from
+
+Person dao
+pk  id
+
+Message dao
+pk  id
+fk1 person_from
+fk2 person_to
+
+Post dao
+pk  id
+fk  person_id
+
+Post_Likes  no dao, only entity
+pk  post_id
+pk  person_id
+
+Place   dao
+pk  id
+
+hobby   dao
+pk  id
