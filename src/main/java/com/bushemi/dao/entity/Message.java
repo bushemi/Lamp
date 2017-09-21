@@ -19,15 +19,13 @@ public class Message {
     @Column(name = "TIME_SENT")
     private LocalDateTime timeSent;
 
-    @Column(name = "ID_PERSON_FROM")
     @OneToOne(targetEntity = Person.class)
-    @JoinColumn(name = "id")
-    private long idPersonFrom;
+    @JoinColumn(name = "ID_PERSON_FROM")
+    private Person PersonFrom;
 
-    @Column(name = "ID_PERSON_TO")
     @OneToOne(targetEntity = Person.class)
-    @JoinColumn(name = "id")
-    private long idPersonTo;
+    @JoinColumn(name = "ID_PERSON_TO")
+    private Person PersonTo;
 
 
 }
