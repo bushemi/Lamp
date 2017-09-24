@@ -7,7 +7,7 @@ import com.bushemi.model.*;
 import javax.persistence.Converter;
 
 
-@Converter
+
 public final class EntityDtoConverter {
 
 	private EntityDtoConverter() {
