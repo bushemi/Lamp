@@ -2,40 +2,42 @@ package com.bushemi.dao.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 
 @Entity
-@Table(name = "Friendship")
+@Table(name = "FRIENDSHIP")
 public class Friendship {
 
-    @OneToOne(targetEntity = Person.class)
-    @JoinColumn(name = "PERSON_ID")
-    private Person person;
-
-    @OneToOne(targetEntity = Person.class)
-    @JoinColumn(name = "FRIEND_ID")
-    private Person friend;
-
+    @EmbeddedId
+    private FriendsPrimaryKey friends = new FriendsPrimaryKey();
     @Column(name = "FRIENDSHIP_DATE")
     private LocalDate friendFrom;
 
 
+    public FriendsPrimaryKey getFriends() {
+        return friends;
+    }
+
+    public void setFriends(FriendsPrimaryKey friends) {
+        this.friends = friends;
+    }
+
+    @Transient
     public Person getPerson() {
-        return person;
+        return friends.getPerson();
     }
 
     public void setPerson(Person person) {
-        this.person = person;
+        this.friends.setPerson(person);
     }
-
+    @Transient
     public Person getFriend() {
-        return friend;
+        return friends.getFriend();
     }
 
     public void setFriend(Person friend) {
-        this.friend = friend;
+        this.friends.setFriend(friend);
     }
 
     public LocalDate getFriendFrom() {
@@ -51,20 +53,21 @@ public class Friendship {
         if ( this == o ) return true;
         if ( o == null || getClass() != o.getClass() ) return false;
         Friendship that = (Friendship) o;
-        return person == that.person &&
-                friend == that.friend;
+        boolean result = Objects.equals(friends.getPerson(), that.friends.getPerson()) &&
+                Objects.equals(friends.getFriend(), that.friends.getFriend());
+        return result;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(person, friend, friendFrom);
+        return Objects.hash(friends.getPerson(), friends.getFriend(), friendFrom);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Friendship{");
-        sb.append("person=").append(person);
-        sb.append(", friend=").append(friend);
+        sb.append("person=").append(friends.getPerson());
+        sb.append(", friend=").append(friends.getFriend());
         sb.append(", friends From=").append(friendFrom);
         sb.append('}');
         return sb.toString();

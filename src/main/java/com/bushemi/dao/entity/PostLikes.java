@@ -1,20 +1,15 @@
 package com.bushemi.dao.entity;
 
-import javax.persistence.*;
 import java.util.Objects;
 
 
-@Entity
-@Table(name = "POST_LIKES")
+
 public class PostLikes {
 
 
-    @ManyToOne
-    @JoinColumn(name = "PERSON_ID", nullable = false)
+
     private Person liker;
 
-    @ManyToOne
-    @JoinColumn(name = "POST_ID", nullable = false)
     private Post post;
 
     public Person getLiker() {

@@ -2,6 +2,8 @@ package com.bushemi.dao.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 
@@ -12,7 +14,7 @@ public class Person {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
@@ -26,15 +28,43 @@ public class Person {
     @Column(name = "NICKNAME", nullable = false, unique = true)
     private String nickname;
 
-    @Version
-    @Column(name = "VERSION", nullable = false)
-    private int version;
 
-    public long getId() {
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "PERSON_PLACE",
+            inverseJoinColumns = @JoinColumn(name = "PLACES_ID"),
+            joinColumns = @JoinColumn(name = "PERSON_ID")
+    )
+    private Collection<Place> places;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "PERSON_HOBBY",
+            inverseJoinColumns = @JoinColumn(name = "HOBBY_ID"),
+            joinColumns = @JoinColumn(name = "PERSON_ID")
+    )
+    private Collection<Hobby> hobbies =  new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "POST_LIKES",
+            inverseJoinColumns = @JoinColumn(name = "POST_ID"),
+            joinColumns = @JoinColumn(name = "PERSON_ID")
+    )
+    private Collection<Post> likes =  new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
+    private Collection<Post> postAuthor =  new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "friends.person")
+    private Collection<Friendship> friendships =  new ArrayList<>();
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,12 +100,44 @@ public class Person {
         this.nickname = nickname;
     }
 
-    public int getVersion() {
-        return version;
+    public Collection<Place> getPlaces() {
+        return places;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    public void setPlaces(Collection<Place> places) {
+        this.places = places;
+    }
+
+    public Collection<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(Collection<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public Collection<Post> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Collection<Post> likes) {
+        this.likes = likes;
+    }
+
+    public Collection<Post> getPostAuthor() {
+        return postAuthor;
+    }
+
+    public void setPostAuthor(Collection<Post> postAuthor) {
+        this.postAuthor = postAuthor;
+    }
+
+    public Collection<Friendship> getFriendships() {
+        return friendships;
+    }
+
+    public void setFriendships(Collection<Friendship> friendships) {
+        this.friendships = friendships;
     }
 
     @Override
@@ -83,14 +145,14 @@ public class Person {
         if ( this == o ) return true;
         if ( o == null || getClass() != o.getClass() ) return false;
         Person person = (Person) o;
-        return id == person.id &&
-                version == person.version &&
+        return Objects.equals(id, person.id) &&
+
                 Objects.equals(nickname, person.nickname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, version);
+        return Objects.hash(id, nickname);
     }
 
     @Override
@@ -101,7 +163,6 @@ public class Person {
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", birthday=").append(birthday);
         sb.append(", nickname='").append(nickname).append('\'');
-        sb.append(", version=").append(version);
         sb.append('}');
         return sb.toString();
     }

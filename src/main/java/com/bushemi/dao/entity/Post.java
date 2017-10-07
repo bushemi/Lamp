@@ -2,6 +2,7 @@ package com.bushemi.dao.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Objects;
 
 
@@ -23,10 +24,13 @@ public class Post {
     @Column(name = "PLACE_TIME")
     private LocalDateTime placeTime;
 
-    @Column(name = "PERSON_ID")
-    @OneToOne(targetEntity = Person.class)
-    @JoinColumn(name = "id")
-    private long personId;
+    @ManyToOne(targetEntity = Person.class)
+    @JoinColumn(name = "PERSON_ID")
+    private Person owner;
+
+    @ManyToMany(fetch = FetchType.LAZY ,mappedBy = "likes")
+    Collection<Person> postLikers;
+
 
     public long getId() {
         return id;
@@ -60,12 +64,12 @@ public class Post {
         this.placeTime = placeTime;
     }
 
-    public long getPersonId() {
-        return personId;
+    public Person getOwner() {
+        return owner;
     }
 
-    public void setPersonId(long personId) {
-        this.personId = personId;
+    public void setOwner(Person person) {
+        this.owner = person;
     }
 
     @Override
@@ -74,15 +78,13 @@ public class Post {
         if ( o == null || getClass() != o.getClass() ) return false;
         Post post = (Post) o;
         return id == post.id &&
-                personId == post.personId &&
-                Objects.equals(title, post.title) &&
-                Objects.equals(content, post.content) &&
-                Objects.equals(placeTime, post.placeTime);
+                Objects.equals(placeTime, post.placeTime) &&
+                Objects.equals(owner, post.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, placeTime, personId);
+        return Objects.hash(id, placeTime, owner);
     }
 
     @Override
@@ -92,7 +94,7 @@ public class Post {
         sb.append(", title='").append(title).append('\'');
         sb.append(", content='").append(content).append('\'');
         sb.append(", placeTime=").append(placeTime);
-        sb.append(", personId=").append(personId);
+        sb.append(", person=").append(owner);
         sb.append('}');
         return sb.toString();
     }

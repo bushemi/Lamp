@@ -20,11 +20,11 @@ public class Message {
     @Column(name = "TIME_SENT")
     private LocalDateTime timeSent;
 
-    @OneToOne(targetEntity = Person.class)
+    @ManyToOne(targetEntity = Person.class)
     @JoinColumn(name = "ID_PERSON_FROM")
     private Person PersonFrom;
 
-    @OneToOne(targetEntity = Person.class)
+    @ManyToOne(targetEntity = Person.class)
     @JoinColumn(name = "ID_PERSON_TO")
     private Person PersonTo;
 
