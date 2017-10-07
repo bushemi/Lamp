@@ -4,9 +4,6 @@ package com.bushemi.converters;
 import com.bushemi.dao.entity.*;
 import com.bushemi.model.*;
 
-import javax.persistence.Converter;
-
-
 
 public final class EntityDtoConverter {
 
@@ -113,7 +110,7 @@ public final class EntityDtoConverter {
 		post.setPlaceTime(postDto.getPlaceTime());
 		post.setContent(postDto.getContent());
 		post.setTitle(postDto.getTitle());
-		post.setPerson(EntityDtoConverter.convert(postDto.getPerson()));
+		post.setOwner(EntityDtoConverter.convert(postDto.getOwner()));
 		return post;
 	}
 
@@ -123,7 +120,7 @@ public final class EntityDtoConverter {
 		post.setPlaceTime(postDao.getPlaceTime());
 		post.setContent(postDao.getContent());
 		post.setTitle(postDao.getTitle());
-		post.setPerson(EntityDtoConverter.convert(postDao.getPerson()));
+		post.setOwner(EntityDtoConverter.convert(postDao.getOwner()));
 		return post;
 	}
 
