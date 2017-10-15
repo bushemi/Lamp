@@ -1,6 +1,8 @@
 package com.bushemi.dao.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +24,9 @@ public class Place {
 
     @Column(name = "LONGITUDE")
     private double longitude;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "places")
+    private Collection<Person> personsFromPlace =  new ArrayList<>();
 
     public long getId() {
         return id;
@@ -63,6 +68,14 @@ public class Place {
         this.longitude = longitude;
     }
 
+    public Collection<Person> getPersonsFromPlace() {
+        return personsFromPlace;
+    }
+
+    public void setPersonsFromPlace(Collection<Person> personsFromPlace) {
+        this.personsFromPlace = personsFromPlace;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
@@ -74,7 +87,7 @@ public class Place {
 
     @Override
     public int hashCode() {
-        return Objects.hash(latitude, longitude);
+        return Objects.hash(id);
     }
 
     @Override
@@ -85,6 +98,7 @@ public class Place {
         sb.append(", description='").append(description).append('\'');
         sb.append(", latitude=").append(latitude);
         sb.append(", longitude=").append(longitude);
+        sb.append(", personsFromPlace=").append(personsFromPlace);
         sb.append('}');
         return sb.toString();
     }

@@ -20,13 +20,13 @@ public class Message {
     @Column(name = "TIME_SENT")
     private LocalDateTime timeSent;
 
-    @ManyToOne(targetEntity = Person.class)
+    @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON_FROM")
-    private Person PersonFrom;
+    private Person personFrom;
 
-    @ManyToOne(targetEntity = Person.class)
+    @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON_TO")
-    private Person PersonTo;
+    private Person personTo;
 
     public long getId() {
         return id;
@@ -53,19 +53,19 @@ public class Message {
     }
 
     public Person getPersonFrom() {
-        return PersonFrom;
+        return personFrom;
     }
 
     public void setPersonFrom(Person personFrom) {
-        PersonFrom = personFrom;
+        this.personFrom = personFrom;
     }
 
     public Person getPersonTo() {
-        return PersonTo;
+        return personTo;
     }
 
     public void setPersonTo(Person personTo) {
-        PersonTo = personTo;
+        this.personTo = personTo;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Message {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, timeSent);
+        return Objects.hash(id);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class Message {
         sb.append("id=").append(id);
         sb.append(", content='").append(content).append('\'');
         sb.append(", timeSent=").append(timeSent);
-        sb.append(", from=").append(PersonFrom);
-        sb.append(", to=").append(PersonTo);
+        sb.append(", from=").append(personFrom);
+        sb.append(", to=").append(personTo);
         sb.append('}');
         return sb.toString();
     }

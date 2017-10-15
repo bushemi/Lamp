@@ -1,9 +1,6 @@
 package com.bushemi.dao.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,12 +10,12 @@ import java.util.Objects;
  */
 @Embeddable
 public class FriendsPrimaryKey  implements Serializable{
-    @ManyToOne(optional = true, cascade =  CascadeType.ALL)
-    @JoinColumn(name = "PERSON_ID", insertable=false, updatable=false)
+    @ManyToOne(cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_ID")
     private Person person;
 
-    @ManyToOne(optional = true, cascade =  CascadeType.ALL)
-    @JoinColumn(name = "FRIEND_ID", insertable=false, updatable=false)
+    @ManyToOne(cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "FRIEND_ID")
     private Person friend;
 
 

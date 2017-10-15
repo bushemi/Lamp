@@ -28,17 +28,18 @@ public class Person {
     @Column(name = "NICKNAME", nullable = false, unique = true)
     private String nickname;
 
+    @Column(name = "PHOTO", columnDefinition = "VARCHAR(255) not null default '/static/monkey.png'")
+    private String photoURL = "/static/monkey.png";
 
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "PERSON_PLACE",
-            inverseJoinColumns = @JoinColumn(name = "PLACES_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PLACE_ID"),
             joinColumns = @JoinColumn(name = "PERSON_ID")
     )
-    private Collection<Place> places;
+    private Collection<Place> places = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "PERSON_HOBBY",
             inverseJoinColumns = @JoinColumn(name = "HOBBY_ID"),
@@ -100,6 +101,14 @@ public class Person {
         this.nickname = nickname;
     }
 
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
+    }
+
     public Collection<Place> getPlaces() {
         return places;
     }
@@ -146,13 +155,12 @@ public class Person {
         if ( o == null || getClass() != o.getClass() ) return false;
         Person person = (Person) o;
         return Objects.equals(id, person.id) &&
-
                 Objects.equals(nickname, person.nickname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname);
+        return Objects.hash(id);
     }
 
     @Override
@@ -163,6 +171,7 @@ public class Person {
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", birthday=").append(birthday);
         sb.append(", nickname='").append(nickname).append('\'');
+        sb.append(", photoURL='").append(photoURL).append('\'');
         sb.append('}');
         return sb.toString();
     }

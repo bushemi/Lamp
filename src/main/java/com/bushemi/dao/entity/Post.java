@@ -2,6 +2,7 @@ package com.bushemi.dao.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -25,11 +26,11 @@ public class Post {
     private LocalDateTime placeTime;
 
     @ManyToOne(targetEntity = Person.class)
-    @JoinColumn(name = "PERSON_ID")
+    @JoinColumn(name = "OWNER_ID")
     private Person owner;
 
     @ManyToMany(fetch = FetchType.LAZY ,mappedBy = "likes")
-    Collection<Person> postLikers;
+    private Collection<Person> postLikers = new ArrayList<>();
 
 
     public long getId() {
@@ -72,6 +73,14 @@ public class Post {
         this.owner = person;
     }
 
+    public Collection<Person> getPostLikers() {
+        return postLikers;
+    }
+
+    public void setPostLikers(Collection<Person> postLikers) {
+        this.postLikers = postLikers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
@@ -84,7 +93,7 @@ public class Post {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, placeTime, owner);
+        return Objects.hash(id);
     }
 
     @Override
@@ -94,7 +103,7 @@ public class Post {
         sb.append(", title='").append(title).append('\'');
         sb.append(", content='").append(content).append('\'');
         sb.append(", placeTime=").append(placeTime);
-        sb.append(", person=").append(owner);
+        sb.append(", owner=").append(owner);
         sb.append('}');
         return sb.toString();
     }

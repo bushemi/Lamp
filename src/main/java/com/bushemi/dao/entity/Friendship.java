@@ -60,7 +60,7 @@ public class Friendship {
 
     @Override
     public int hashCode() {
-        return Objects.hash(friends.getPerson(), friends.getFriend(), friendFrom);
+        return Objects.hash(friends.getPerson(), friends.getFriend());
     }
 
     @Override

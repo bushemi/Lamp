@@ -1,6 +1,8 @@
 package com.bushemi.dao.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -18,8 +20,11 @@ public class Hobby {
     @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "DESRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hobbies")
+    private Collection<Person> personsWithHobby =  new ArrayList<>();
 
     public long getId() {
         return id;
@@ -45,6 +50,14 @@ public class Hobby {
         this.description = description;
     }
 
+    public Collection<Person> getPersonsWithHobby() {
+        return personsWithHobby;
+    }
+
+    public void setPersonsWithHobby(Collection<Person> personsWithHobby) {
+        this.personsWithHobby = personsWithHobby;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
@@ -57,7 +70,7 @@ public class Hobby {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        return Objects.hash(id);
     }
 
     @Override
@@ -66,6 +79,7 @@ public class Hobby {
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
+        sb.append(", personsWithHobby=").append(personsWithHobby);
         sb.append('}');
         return sb.toString();
     }
