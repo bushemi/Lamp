@@ -1,22 +1,30 @@
 package com.bushemi.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 
 public class PersonDto {
 
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private LocalDate birthday;
     private String nickname;
+    private String photoURL;
+    private Collection<PlaceDto> places;
+    private Collection<HobbyDto> hobbies =  new ArrayList<>();
+    private Collection<PostDto> likes =  new ArrayList<>();
+    private Collection<PostDto> postAuthor =  new ArrayList<>();
+    private Collection<FriendshipDto> friendships =  new ArrayList<>();
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,6 +60,54 @@ public class PersonDto {
         this.nickname = nickname;
     }
 
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
+    }
+
+    public Collection<PlaceDto> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(Collection<PlaceDto> places) {
+        this.places = places;
+    }
+
+    public Collection<HobbyDto> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(Collection<HobbyDto> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public Collection<PostDto> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Collection<PostDto> likes) {
+        this.likes = likes;
+    }
+
+    public Collection<PostDto> getPostAuthor() {
+        return postAuthor;
+    }
+
+    public void setPostAuthor(Collection<PostDto> postAuthor) {
+        this.postAuthor = postAuthor;
+    }
+
+    public Collection<FriendshipDto> getFriendships() {
+        return friendships;
+    }
+
+    public void setFriendships(Collection<FriendshipDto> friendships) {
+        this.friendships = friendships;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
@@ -61,22 +117,24 @@ public class PersonDto {
                 Objects.equals(firstName, personDto.firstName) &&
                 Objects.equals(lastName, personDto.lastName) &&
                 Objects.equals(birthday, personDto.birthday) &&
+                Objects.equals(photoURL, personDto.photoURL) &&
                 Objects.equals(nickname, personDto.nickname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthday, nickname);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("PersonDto{");
+        final StringBuilder sb = new StringBuilder("Person{");
         sb.append("id=").append(id);
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", birthday=").append(birthday);
         sb.append(", nickname='").append(nickname).append('\'');
+        sb.append(", photoURL='").append(photoURL).append('\'');
         sb.append('}');
         return sb.toString();
     }

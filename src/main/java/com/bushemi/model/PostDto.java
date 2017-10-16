@@ -10,7 +10,7 @@ public class PostDto {
     private String title;
     private String content;
     private LocalDateTime placeTime;
-    private PersonDto person;
+    private PersonDto owner;
 
     public long getId() {
         return id;
@@ -44,12 +44,12 @@ public class PostDto {
         this.placeTime = placeTime;
     }
 
-    public PersonDto getPerson() {
-        return person;
+    public PersonDto getOwner() {
+        return owner;
     }
 
-    public void setPerson(PersonDto person) {
-        this.person = person;
+    public void setOwner(PersonDto person) {
+        this.owner = person;
     }
 
     @Override
@@ -61,12 +61,12 @@ public class PostDto {
                 Objects.equals(title, postDto.title) &&
                 Objects.equals(content, postDto.content) &&
                 Objects.equals(placeTime, postDto.placeTime) &&
-                Objects.equals(person, postDto.person);
+                Objects.equals(owner, postDto.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, placeTime, person);
+        return Objects.hash(id, title, content, placeTime, owner);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class PostDto {
         sb.append(", title='").append(title).append('\'');
         sb.append(", content='").append(content).append('\'');
         sb.append(", placeTime=").append(placeTime);
-        sb.append(", person=").append(person);
+        sb.append(", owner=").append(owner);
         sb.append('}');
         return sb.toString();
     }

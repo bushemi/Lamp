@@ -5,15 +5,15 @@ import java.util.Objects;
 
 public class PostLikesDto {
 
-    private PersonDto person;
+    private PersonDto liker;
     private PostDto post;
 
-    public PersonDto getPerson() {
-        return person;
+    public PersonDto getLiker() {
+        return liker;
     }
 
-    public void setPerson(PersonDto person) {
-        this.person = person;
+    public void setLiker(PersonDto liker) {
+        this.liker = liker;
     }
 
     public PostDto getPost() {
@@ -29,19 +29,19 @@ public class PostLikesDto {
         if ( this == o ) return true;
         if ( o == null || getClass() != o.getClass() ) return false;
         PostLikesDto that = (PostLikesDto) o;
-        return Objects.equals(person, that.person) &&
+        return Objects.equals(liker, that.liker) &&
                 Objects.equals(post, that.post);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(person, post);
+        return Objects.hash(liker, post);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("PostLikesDto{");
-        sb.append("person=").append(person);
+        sb.append("liker=").append(liker);
         sb.append(", post=").append(post);
         sb.append('}');
         return sb.toString();

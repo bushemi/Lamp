@@ -39,9 +39,10 @@ public class FriendshipDto {
         if ( this == o ) return true;
         if ( o == null || getClass() != o.getClass() ) return false;
         FriendshipDto that = (FriendshipDto) o;
-        return Objects.equals(person, that.person) &&
+        boolean result = Objects.equals(person, that.person) &&
                 Objects.equals(friend, that.friend) &&
-                Objects.equals(friendFrom, that.friendFrom);
+                friendFrom.isEqual(that.friendFrom);
+        return result;
     }
 
     @Override

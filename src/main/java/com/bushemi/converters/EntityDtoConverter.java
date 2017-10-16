@@ -10,6 +10,25 @@ public final class EntityDtoConverter {
 	private EntityDtoConverter() {
 		//private default constructor for utility class
 	}
+	public static User convert(UserDto userDto) {
+		User user = new User();
+		user.setId(userDto.getId());
+		user.setLogin(userDto.getLogin());
+		user.setPassword(userDto.getPassword());
+		user.setEmail(userDto.getEmail());
+		user.setPerson(EntityDtoConverter.convert(userDto.getPerson()));
+		return  user;
+	}
+
+	public static UserDto convert(User userDao) {
+		UserDto user = new UserDto();
+		user.setId(userDao.getId());
+		user.setLogin(userDao.getLogin());
+		user.setPassword(userDao.getPassword());
+		user.setEmail(userDao.getEmail());
+		user.setPerson(EntityDtoConverter.convert(userDao.getPerson()));
+		return  user;
+	}
 
 	public static Person convert(PersonDto personDto) {
 		Person person = new Person();
