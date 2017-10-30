@@ -5,8 +5,6 @@
     <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
     <link rel="stylesheet" href="/resources/core/Registration.css">
 
-    <%--<jsp:useBean id="personInfo" scope="session"--%>
-                 <%--type="com.bushemi.model.PersonInfo" />--%>
 </head>
 <body>
 <div class="container">

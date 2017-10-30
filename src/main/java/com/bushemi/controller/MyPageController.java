@@ -158,7 +158,6 @@ public class MyPageController {
             hobby.setDescription(hobbyInfo.getDescription());
             hobby.setTitle(hobbyInfo.getTitle());
         }
-        System.out.println(hobby);
         interestService.addPersonHobby(person, hobby);
         return "OK";
     }

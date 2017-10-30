@@ -48,11 +48,8 @@ public class FriendshipDaoImpl implements FriendshipDao {
     @Override
     public void delete(FriendshipDto entity) {
         Session session = sessionFactory.getCurrentSession();
-//        Friendship friends = EntityDtoConverter.convert(entity);
         Friendship friendshipFirst = findFriendshipBetweenTwoPersons(entity.getPerson(), entity.getFriend());
         if(friendshipFirst == null){friendshipFirst = findFriendshipBetweenTwoPersons(entity.getFriend(), entity.getPerson());}
-//        friends.getPerson().getFriendships().remove(friends);
-//        friends.getFriend().getFriendships().remove(friends);
         session.delete(friendshipFirst);
     }
 
@@ -60,8 +57,6 @@ public class FriendshipDaoImpl implements FriendshipDao {
     public void update(FriendshipDto entity) {
         Friendship friends = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
-//        session.merge(friends.getPerson());
-//        session.merge(friends.getFriend());
         session.update(friends);
     }
 

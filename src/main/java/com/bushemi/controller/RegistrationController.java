@@ -41,7 +41,6 @@ public class RegistrationController {
     @RequestMapping(value = "/submit-reg", method = RequestMethod.POST)
     public ResponseMessage regUser(@RequestBody AuthData authData, HttpServletRequest request) {
 
-        System.out.println("REGUSR "+authData);
         if (authData.getLogin() == null || authData.getPassword() == null || authData.getEmail() == null ||
         authData.getLogin().trim().length() < 1 || authData.getPassword().trim().length() < 1 || authData.getEmail().trim().length() < 1 ){
             return ResponseMessage.errorMessage("bad login/password/email");
@@ -63,7 +62,6 @@ public class RegistrationController {
     public ResponseMessage regPersonInfo(@RequestBody PersonInfo personInfo, HttpServletRequest request) {
         String id = String.valueOf(request.getSession().getAttribute("id"));
         PersonDto p = null;
-        System.out.println("REGINFO " + personInfo);
         try {
             p = personService.createPerson(
                     Long.parseLong(id),

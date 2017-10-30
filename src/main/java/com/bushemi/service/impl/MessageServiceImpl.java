@@ -18,8 +18,12 @@ import java.util.Collection;
 @Service
 public class MessageServiceImpl implements MessageService {
 
+    private final MessageDao messageDao;
+
     @Autowired
-    MessageDao messageDao;
+    public MessageServiceImpl(MessageDao messageDao) {
+        this.messageDao = messageDao;
+    }
 
     @Override
     public MessageDto createMessage(PersonDto personFrom, PersonDto personTo, String text) {

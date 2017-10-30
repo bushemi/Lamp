@@ -50,7 +50,6 @@ public class LoginController {
         request.getSession().setAttribute(LoginFilter.LOGIN_ATTR, LocalDateTime.now());
         request.getSession().setAttribute("id", person.getId());
         PersonInfo p = new PersonInfo(person);
-        System.out.println("Log in successfully:" + p);
         return ResponseMessage.okMessage(p);
     }
 }

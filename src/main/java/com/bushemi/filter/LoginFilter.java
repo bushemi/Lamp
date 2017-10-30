@@ -25,7 +25,6 @@ public class LoginFilter implements Filter {
         if (loginTime == null || loginTime.isBefore(LocalDateTime.now().minusMinutes(30))){
             ((HttpServletResponse) servletResponse).sendRedirect("/login");
         }
-        // обработал и отдал дальше
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

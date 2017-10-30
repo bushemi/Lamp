@@ -20,11 +20,14 @@ import java.util.Collection;
 public class PostServiceImpl implements PostService {
 
 
-    @Autowired
-    PersonDao personDao;
+    final private PersonDao personDao;
+    final private PostDao postDao;
 
     @Autowired
-    PostDao postDao;
+    public PostServiceImpl(PersonDao personDao, PostDao postDao) {
+        this.personDao = personDao;
+        this.postDao = postDao;
+    }
 
 
     @Override

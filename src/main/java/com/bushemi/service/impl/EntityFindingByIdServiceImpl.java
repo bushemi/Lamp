@@ -16,18 +16,22 @@ import java.util.Collection;
  */
 @Service
 public class EntityFindingByIdServiceImpl implements EntityFindingByIdService {
+    private final FriendshipDao friendshipDao;
+    private final PersonDao personDao;
+    private final PlaceDao placeDao;
+    private final HobbyDao hobbyDao;
+    private final PostDao postDao;
+    private final MessageDao messageDao;
+
     @Autowired
-    private FriendshipDao friendshipDao;
-    @Autowired
-    private PersonDao personDao;
-    @Autowired
-    private PlaceDao placeDao;
-    @Autowired
-    private HobbyDao hobbyDao;
-    @Autowired
-    private PostDao postDao;
-    @Autowired
-    private MessageDao messageDao;
+    public EntityFindingByIdServiceImpl(FriendshipDao friendshipDao, PersonDao personDao, PlaceDao placeDao, HobbyDao hobbyDao, PostDao postDao, MessageDao messageDao) {
+        this.friendshipDao = friendshipDao;
+        this.personDao = personDao;
+        this.placeDao = placeDao;
+        this.hobbyDao = hobbyDao;
+        this.postDao = postDao;
+        this.messageDao = messageDao;
+    }
 
     @Override
     public PersonDto getPersonDtoById(long id) {

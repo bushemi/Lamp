@@ -75,8 +75,6 @@ public class PersonDaoImpl implements PersonDao {
         Session session = sessionFactory.getCurrentSession();
         Person person = (Person) session.get(Person.class, personDto.getId());
         Post post = (Post) session.get(Post.class, postDto.getId());
-//        Person person = EntityDtoConverter.convert(personDto);
-//        Post post = EntityDtoConverter.convert(postDto);
         person.getLikes().add(post);
         post.getPostLikers().add(person);
         session.merge(person);
@@ -116,12 +114,8 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void disLike(PersonDto personDto, PostDto postDto) {
         Session session = sessionFactory.getCurrentSession();
-//        Person person = EntityDtoConverter.convert(personDto);
-//        Post post = EntityDtoConverter.convert(postDto);
         Person person = (Person) session.get(Person.class, personDto.getId());
         Post post = (Post) session.get(Post.class, postDto.getId());
-//        session.merge(person);
-//        session.merge(post);
         person.getLikes().remove(post);
         post.getPostLikers().remove(person);
         session.merge(person);

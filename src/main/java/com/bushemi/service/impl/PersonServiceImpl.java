@@ -22,10 +22,14 @@ import java.util.Collection;
 @Service
 public class PersonServiceImpl implements PersonService {
 
+    final private FriendshipDao friendshipDao;
+    final private PersonDao personDao;
+
     @Autowired
-    FriendshipDao friendshipDao;
-    @Autowired
-    PersonDao personDao;
+    public PersonServiceImpl(FriendshipDao friendshipDao, PersonDao personDao) {
+        this.friendshipDao = friendshipDao;
+        this.personDao = personDao;
+    }
 
 
     @Override

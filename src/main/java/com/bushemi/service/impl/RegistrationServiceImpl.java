@@ -18,14 +18,18 @@ import java.util.Random;
  */
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
-    @Autowired
-    PasswordEncoder encoder;
-    @Autowired
-    UserDao userDao;
-    @Autowired
-    PersonDao personDao;
+    final private PasswordEncoder encoder;
+    final private UserDao userDao;
+    final private PersonDao personDao;
 
-    Random random = new Random();
+    private final Random random = new Random();
+
+    @Autowired
+    public RegistrationServiceImpl(PasswordEncoder encoder, UserDao userDao, PersonDao personDao) {
+        this.encoder = encoder;
+        this.userDao = userDao;
+        this.personDao = personDao;
+    }
 
     @Override
     public UserDto registrationNewUser(String login, String password, String email) throws UserRegisteredException{

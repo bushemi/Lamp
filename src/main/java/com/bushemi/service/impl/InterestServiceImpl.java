@@ -17,10 +17,15 @@ import java.util.Collection;
  */
 @Service
 public class InterestServiceImpl implements InterestService {
+    private final PlaceDao placeDao;
+    private final HobbyDao hobbyDao;
+
     @Autowired
-    private PlaceDao placeDao;
-    @Autowired
-    private HobbyDao hobbyDao;
+    public InterestServiceImpl(PlaceDao placeDao, HobbyDao hobbyDao) {
+        this.placeDao = placeDao;
+        this.hobbyDao = hobbyDao;
+    }
+
     @Override
     public void addPlace(PlaceDto place) {
         placeDao.create(place);
