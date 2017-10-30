@@ -1,7 +1,7 @@
 package com.bushemi.dao.impl;
 
 import com.bushemi.dao.*;
-import com.bushemi.model.*;
+import com.bushemi.model.entity.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

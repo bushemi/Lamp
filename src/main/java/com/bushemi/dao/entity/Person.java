@@ -28,8 +28,8 @@ public class Person {
     @Column(name = "NICKNAME", nullable = false, unique = true)
     private String nickname;
 
-    @Column(name = "PHOTO", columnDefinition = "VARCHAR(255) not null default '/static/monkey.png'")
-    private String photoURL = "/static/monkey.png";
+    @Column(name = "PHOTO", columnDefinition = "VARCHAR(255) not null default '/resources/images/monkey.png'")
+    private String photoURL = "/resources/images/monkey.png";
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
@@ -60,6 +60,8 @@ public class Person {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "friends.person")
     private Collection<Friendship> friendships =  new ArrayList<>();
+
+
 
     public Long getId() {
         return id;
@@ -148,6 +150,8 @@ public class Person {
     public void setFriendships(Collection<Friendship> friendships) {
         this.friendships = friendships;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

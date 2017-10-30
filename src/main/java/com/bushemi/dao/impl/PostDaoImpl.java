@@ -4,15 +4,14 @@ import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.PostDao;
 import com.bushemi.dao.entity.Person;
 import com.bushemi.dao.entity.Post;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PostDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PostDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,7 +63,7 @@ public class PostDaoImpl implements PostDao {
     @Override
     public Collection<PostDto> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        List<Post> posts = new ArrayList();
+        List<Post> posts;
         posts = session.createQuery("from com.bushemi.dao.entity.Post").list();
         return posts.stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
     }
@@ -75,11 +74,7 @@ public class PostDaoImpl implements PostDao {
         Session session = sessionFactory.getCurrentSession();
         Person entity = EntityDtoConverter.convert(person);
         session.merge(entity);
-        List<Post> posts = session.createQuery("select p from com.bushemi.dao.entity.Post p where p.owner.id = :owner")
-                .setParameter("owner", entity.getId())
-                .list();
-
-        return posts.stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
+        return findPostsByOwnerId(entity.getId());
     }
 
     @Override
@@ -87,8 +82,17 @@ public class PostDaoImpl implements PostDao {
         Post post1 = EntityDtoConverter.convert(post);
         Session session = sessionFactory.getCurrentSession();
         post1 = (Post) session.get(Post.class, post1.getId());
-
         return post1.getPostLikers().stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<PostDto> findPostsByOwnerId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        List<Post> posts = session.createQuery("select p from com.bushemi.dao.entity.Post p where p.owner.id = :owner")
+                .setParameter("owner", id)
+                .list();
+
+        return posts.stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
     }
 
 }

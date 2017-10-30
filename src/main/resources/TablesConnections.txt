@@ -1,26 +1,59 @@
-Friendship no dao, only entity
-fk  person_id
-fk  friend_id
-    date_from
 
-Person dao
-pk  id
+User
+one-to-one -> Person
 
-Message dao
-pk  id
-fk1 person_from
-fk2 person_to
+Persons
+one-to-one -> User 
+many-to-many -> PostLikes
+one-to-many -> Post(owner)
+many-to-many -> Friendship(person)
+many-to-many -> Friendship(friend)
+one-to-many -> Message(from)
+one-to-many -> Message(to)
+one-to-many -> PersonPlace
+one-to-many -> PersonHobby
 
-Post dao
-pk  id
-fk  person_id
+PersonHobby
+many-to-one -> Person
+one-to-many -> Hobby
 
-Post_Likes  no dao, only entity
-pk  post_id
-pk  person_id
+PersonPlace
+many-to-one -> Person
+one-to-many -> Place
 
-Place   dao
-pk  id
+Message
+many-to-one -> Person(from)
+many-to-one -> Person(to)
 
-hobby   dao
-pk  id
+PostLikes
+many-to-many -> Person
+many-to-many -> Post
+
+Friendship
+many-to-many -> Person(person)
+many-to-many -> Person(friend)
+
+Post
+many-to-many -> PostLikes
+many-to-one -> Person(owner)
+
+Hobby
+many-to-one -> PersonHobby
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

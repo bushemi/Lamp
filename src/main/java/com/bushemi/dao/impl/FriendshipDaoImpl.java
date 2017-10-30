@@ -3,9 +3,8 @@ package com.bushemi.dao.impl;
 import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.FriendshipDao;
 import com.bushemi.dao.entity.Friendship;
-import com.bushemi.dao.entity.Person;
-import com.bushemi.model.FriendshipDto;
-import com.bushemi.model.PersonDto;
+import com.bushemi.model.entity.FriendshipDto;
+import com.bushemi.model.entity.PersonDto;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,7 +20,8 @@ import static java.util.stream.Collectors.toList;
 
 /**
  * Created by igor on 01.09.17.
- * useless comment
+ * @Version 1.1
+ * 1.1 - was added isFriends();
  */
 @Repository
 @Transactional
@@ -47,11 +47,13 @@ public class FriendshipDaoImpl implements FriendshipDao {
 
     @Override
     public void delete(FriendshipDto entity) {
-        Friendship friends = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
-        friends.getPerson().getFriendships().remove(friends);
-        friends.getFriend().getFriendships().remove(friends);
-        session.delete(friends);
+//        Friendship friends = EntityDtoConverter.convert(entity);
+        Friendship friendshipFirst = findFriendshipBetweenTwoPersons(entity.getPerson(), entity.getFriend());
+        if(friendshipFirst == null){friendshipFirst = findFriendshipBetweenTwoPersons(entity.getFriend(), entity.getPerson());}
+//        friends.getPerson().getFriendships().remove(friends);
+//        friends.getFriend().getFriendships().remove(friends);
+        session.delete(friendshipFirst);
     }
 
     @Override
@@ -73,17 +75,50 @@ public class FriendshipDaoImpl implements FriendshipDao {
     }
 
     @Override
-    public Collection<FriendshipDto> findFriendsOf(PersonDto person) {
+    public Collection<FriendshipDto> findFriendshipsOf(PersonDto person) {
+        Long id = person.getId();
+		return findFriendshipsByPersonId(id);
+    }
+
+    @Override
+    public Collection<FriendshipDto> findFriendshipsByPersonId(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Person person1 = EntityDtoConverter.convert(person);
 
         Criteria criteria = session.createCriteria(Friendship.class);
-        Long id = person1.getId();
+
         criteria.add(Restrictions.or(Restrictions.eq("friends.person.id", id)
-                                    ,Restrictions.eq("friends.friend.id", id)));
+                ,Restrictions.eq("friends.friend.id", id)));
 
-		List<Friendship> friends = criteria.list();
+        List<Friendship> friends = criteria.list();
 
-		return friends.stream().map(EntityDtoConverter::convert).collect(toList());
+        return friends.stream().map(EntityDtoConverter::convert).collect(toList());
+    }
+
+    @Override
+    public boolean isFriends(PersonDto person, PersonDto friend) {
+        Session session = sessionFactory.getCurrentSession();
+        Long personId = person.getId();
+        Long friendId = friend.getId();
+        Criteria criteria = session.createCriteria(Friendship.class);
+
+        criteria.add(Restrictions.or(Restrictions.and(Restrictions.eq("friends.person.id", personId),
+                        Restrictions.eq("friends.friend.id", friendId)),
+                Restrictions.and(Restrictions.eq("friends.person.id", friendId),
+                        Restrictions.eq("friends.friend.id", personId))));
+        List<Friendship> friends = criteria.list();
+
+        return (!friends.isEmpty());
+    }
+
+    private Friendship findFriendshipBetweenTwoPersons(PersonDto person, PersonDto friend){
+        Session session = sessionFactory.getCurrentSession();
+        Long personId = person.getId();
+        Long friendId = friend.getId();
+        Criteria criteria = session.createCriteria(Friendship.class);
+
+        criteria.add(Restrictions.and(Restrictions.eq("friends.person.id", personId),
+                Restrictions.eq("friends.friend.id", friendId)));
+        Friendship friendship = (Friendship) criteria.uniqueResult();
+        return friendship;
     }
 }

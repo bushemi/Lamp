@@ -2,8 +2,8 @@ package com.bushemi.dao.impl;
 
 import com.bushemi.dao.HobbyDao;
 import com.bushemi.dao.PersonDao;
-import com.bushemi.model.HobbyDto;
-import com.bushemi.model.PersonDto;
+import com.bushemi.model.entity.HobbyDto;
+import com.bushemi.model.entity.PersonDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.bushemi.model;
+package com.bushemi.model.entity;
 
 import java.util.Objects;
 
@@ -9,6 +9,17 @@ public class PlaceDto {
     private String description;
     private double latitude;
     private double longitude;
+
+    public PlaceDto() {
+    }
+
+    public PlaceDto(long id, String title, String description, double latitude, double longitude) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     public long getId() {
         return id;

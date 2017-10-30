@@ -3,9 +3,9 @@ package com.bushemi.dao.impl;
 import com.bushemi.dao.FriendshipDao;
 import com.bushemi.dao.PersonDao;
 import com.bushemi.dao.PostDao;
-import com.bushemi.model.FriendshipDto;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PostDto;
+import com.bushemi.model.entity.FriendshipDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PostDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 
@@ -48,6 +47,13 @@ public class PersonDaoTest {
         Assert.notNull(id,"Creating new person was failed");
     }
 
+    @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
+    public void saveTwoEntitiesWithSameNickname() throws Exception {
+
+        Long id1 = entityCreator.createNewPerson(personDao, "first0").getId();
+        Long id2 = entityCreator.createNewPerson(personDao, "first0").getId();
+    }
+
     @Test
     public void createAndLoadById() throws Exception {
         Long id = entityCreator.createNewPerson(personDao, "second2").getId();
@@ -70,6 +76,16 @@ public class PersonDaoTest {
         PersonDto newPerson = entityCreator.createNewPerson(personDao, "forth4");
         newPerson.setNickname("tenth10");
         PersonDto loadedPerson = personDao.update(newPerson);
+        Assert.notNull(loadedPerson.getId(),"person update was failed");
+    }
+
+    @Test
+    public void updateNicknameWithNullId() throws Exception {
+        PersonDto newPerson = entityCreator.createNewPerson(personDao, "forth0");
+        newPerson.setId(null);
+        newPerson.setNickname("tenth0");
+        PersonDto loadedPerson = personDao.update(newPerson);
+        Assert.notNull(loadedPerson.getId(),"updating nickname with null id's person was failed");
     }
 
     @Test
@@ -83,14 +99,15 @@ public class PersonDaoTest {
     @Test
     public void createLike() throws Exception {
         PersonDto first = entityCreator.createNewPerson(personDao, "seventh7");
-        PostDto post = new PostDto();
-        post.setTitle("Title");
-        post.setContent("My post begins from uppercase letter.");
-        post.setOwner(first);
-        post.setPlaceTime(LocalDateTime.now());
+
+        PostDto post = entityCreator.createNewPost(postDao,first);
+//        post.setTitle("Title");
+//        post.setContent("My post begins from uppercase letter.");
+//        post.setOwner(first);
+//        post.setPlaceTime(LocalDateTime.now());
         personDao.createLike(first, post);
         Collection<PostDto> likes = personDao.findLikes(first);
-        System.out.println(likes.size());
+//        System.out.println(likes.size());
 
         Assert.notEmpty(likes,"Can't find any likes for this person with id:" + first.getId());
     }

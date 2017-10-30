@@ -1,8 +1,8 @@
 package com.bushemi.dao;
 
 
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PostDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PostDto;
 
 import java.util.Collection;
 
@@ -17,4 +17,6 @@ public interface PersonDao extends CrudOperationsInterface<PersonDto> {
     Collection<PostDto> findLikes(PersonDto person);
 
     Collection<PersonDto> findFriendsOf(PersonDto person);
+
+    void disLike(PersonDto person, PostDto postDto);
 }

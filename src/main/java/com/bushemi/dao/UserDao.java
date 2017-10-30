@@ -2,8 +2,8 @@ package com.bushemi.dao;
 
 
 
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.UserDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.UserDto;
 
 import java.util.List;
 
@@ -17,4 +17,6 @@ public interface UserDao extends CrudOperationsInterface<UserDto>{
 	Long create(UserDto userDto);
 	UserDto update(UserDto userDto);
 
+    boolean isLoginFree(String login);
+    UserDto findUserByLoginPassword(String login, String password);
 }

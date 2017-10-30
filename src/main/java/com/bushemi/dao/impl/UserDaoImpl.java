@@ -2,9 +2,11 @@ package com.bushemi.dao.impl;
 
 import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.UserDao;
+import com.bushemi.dao.entity.Person;
 import com.bushemi.dao.entity.User;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.UserDto;
+import com.bushemi.exceptions.BadPasswordException;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.UserDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Repository
-@Transactional
+@Transactional(readOnly = true)
 public class UserDaoImpl implements UserDao {
 	private final SessionFactory sessionFactory;
 
@@ -40,6 +42,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	@Transactional
 	public void delete(UserDto entity) {
 		Session session = sessionFactory.getCurrentSession();
 		User user = EntityDtoConverter.convert(entity);
@@ -58,10 +61,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public UserDto findByPerson(PersonDto login) {
+	public UserDto findByPerson(PersonDto person) {
 		User user = (User) sessionFactory.getCurrentSession()
 				.createQuery("select u from com.bushemi.dao.entity.User u where u.person.id = :person")
-				.setParameter("person", login.getId())
+				.setParameter("person", person.getId())
 				.uniqueResult();
 
 
@@ -69,20 +72,47 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	@Transactional
 	public Long create(UserDto userDto) {
 		User user = EntityDtoConverter.convert(userDto);
 
 		Session session = sessionFactory.getCurrentSession();
+		Person person = user.getPerson();
+		session.merge(person);
 		session.save(user);
 		return user.getId();
 	}
 
 	@Override
+	@Transactional
 	public UserDto update(UserDto userDto) {
 
 		Session session = sessionFactory.getCurrentSession();
 		User user = EntityDtoConverter.convert(userDto);
 		session.merge(user);
+		return EntityDtoConverter.convert(user);
+	}
+
+	@Override
+	public boolean isLoginFree(String login) {
+		boolean result;
+		User user = (User) sessionFactory.getCurrentSession()
+				.createQuery("select u from com.bushemi.dao.entity.User u where u.login = :login")
+				.setParameter("login", login)
+				.uniqueResult();
+		if (user == null) {result = true;}
+		else {result = false;}
+		return result;
+	}
+
+	@Override
+	public UserDto findUserByLoginPassword(String login, String password) {
+		User user = (User) sessionFactory.getCurrentSession()
+				.createQuery("select u from com.bushemi.dao.entity.User u where u.login = :login and u.password = :password ")
+				.setParameter("login", login)
+				.setParameter("password", password)
+				.uniqueResult();
+		if (user == null) {throw new BadPasswordException("Bad login or password.");}
 		return EntityDtoConverter.convert(user);
 	}
 

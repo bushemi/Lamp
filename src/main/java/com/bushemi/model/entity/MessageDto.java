@@ -1,4 +1,4 @@
-package com.bushemi.model;
+package com.bushemi.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -9,8 +9,8 @@ public class MessageDto {
     private long id;
     private String content;
     private LocalDateTime timeSent;
-    private PersonDto PersonFrom;
-    private PersonDto PersonTo;
+    private PersonDto personFrom;
+    private PersonDto personTo;
 
     public long getId() {
         return id;
@@ -37,19 +37,19 @@ public class MessageDto {
     }
 
     public PersonDto getPersonFrom() {
-        return PersonFrom;
+        return personFrom;
     }
 
     public void setPersonFrom(PersonDto personFrom) {
-        PersonFrom = personFrom;
+        this.personFrom = personFrom;
     }
 
     public PersonDto getPersonTo() {
-        return PersonTo;
+        return personTo;
     }
 
     public void setPersonTo(PersonDto personTo) {
-        PersonTo = personTo;
+        this.personTo = personTo;
     }
 
     @Override
@@ -60,13 +60,13 @@ public class MessageDto {
         return id == that.id &&
                 Objects.equals(content, that.content) &&
                 Objects.equals(timeSent, that.timeSent) &&
-                Objects.equals(PersonFrom, that.PersonFrom) &&
-                Objects.equals(PersonTo, that.PersonTo);
+                Objects.equals(personFrom, that.personFrom) &&
+                Objects.equals(personTo, that.personTo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content, timeSent, PersonFrom, PersonTo);
+        return Objects.hash(id, content, timeSent, personFrom, personTo);
     }
 
     @Override
@@ -75,8 +75,8 @@ public class MessageDto {
         sb.append("id=").append(id);
         sb.append(", content='").append(content).append('\'');
         sb.append(", timeSent=").append(timeSent);
-        sb.append(", PersonFrom=").append(PersonFrom);
-        sb.append(", PersonTo=").append(PersonTo);
+        sb.append(", personFrom=").append(personFrom);
+        sb.append(", personTo=").append(personTo);
         sb.append('}');
         return sb.toString();
     }

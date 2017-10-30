@@ -1,8 +1,8 @@
 package com.bushemi.dao;
 
 
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PlaceDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PlaceDto;
 
 import java.util.Collection;
 
@@ -16,4 +16,5 @@ public interface PlaceDao extends CrudOperationsInterface<PlaceDto> {
     void addPersonToPlace(PersonDto personDto, PlaceDto placeDto);
 
 
+    Collection<PlaceDto> findPlacesByPersonId(long id);
 }

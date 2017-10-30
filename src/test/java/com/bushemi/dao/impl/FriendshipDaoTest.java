@@ -2,8 +2,8 @@ package com.bushemi.dao.impl;
 
 import com.bushemi.dao.FriendshipDao;
 import com.bushemi.dao.PersonDao;
-import com.bushemi.model.FriendshipDto;
-import com.bushemi.model.PersonDto;
+import com.bushemi.model.entity.FriendshipDto;
+import com.bushemi.model.entity.PersonDto;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,8 @@ import java.util.Collection;
 
 /**
  * Created by igor on 13.10.17.
- * useless comment
+ * @Version 1.1
+ * 1.1 - was added isFriends();
  */
 @ContextConfiguration(locations = "classpath:app-context-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,10 +66,21 @@ public class FriendshipDaoTest {
 
         friendshipDao.delete(friendship);
 
-        Collection<FriendshipDto> friendships = friendshipDao.findFriendsOf(first);
+        Collection<FriendshipDto> friendships = friendshipDao.findFriendshipsOf(first);
         if (friendships.size() > 0) { throw new AssertionError("error with delete friendship");}
     }
+    @Test
+    public void deleteReversedPersons() throws Exception {
+        PersonDto person = entityCreator.createNewPerson(personDao, "thirdFs12");
+        PersonDto friend = entityCreator.createNewPerson(personDao, "forthFs12");
+        FriendshipDto friendship =  entityCreator.createNewFriendship(friendshipDao, person, friend);
+        friendship.setFriend(person);
+        friendship.setPerson(friend);
+        friendshipDao.delete(friendship);
 
+        Collection<FriendshipDto> friendships = friendshipDao.findFriendshipsOf(person);
+        if (friendships.size() > 0) { throw new AssertionError("error with delete friendship");}
+    }
     @Test
     public void update() throws Exception {
         PersonDto first = entityCreator.createNewPerson(personDao, "thirteenthFs");
@@ -105,8 +117,20 @@ public class FriendshipDaoTest {
         PersonDto second = entityCreator.createNewPerson(personDao, "twelfthFs");
         FriendshipDto friendship =  entityCreator.createNewFriendship(friendshipDao, first, second);
 
-        Collection<FriendshipDto> friendships = friendshipDao.findFriendsOf(first);
+        Collection<FriendshipDto> friendships = friendshipDao.findFriendshipsOf(first);
         Assert.notEmpty(friendships,"Can't find any friends of specific person");
     }
+    @Test
+    public void isFriends() throws Exception {
+        PersonDto first = entityCreator.createNewPerson(personDao, "eleventhFs12");
+        PersonDto second = entityCreator.createNewPerson(personDao, "twelfthFs12");
+        PersonDto third = entityCreator.createNewPerson(personDao, "twelfthFs123");
+        FriendshipDto friendship =  entityCreator.createNewFriendship(friendshipDao, first, second);
+        boolean friends = friendshipDao.isFriends(first, second);
+        Assert.isTrue(friends,"fail isFriends");
+        boolean friends2 = friendshipDao.isFriends(third, first);
+        Assert.isTrue(!friends2,"fail friends");
+    }
+
 
 }

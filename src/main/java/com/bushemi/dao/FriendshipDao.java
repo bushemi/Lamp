@@ -1,8 +1,8 @@
 package com.bushemi.dao;
 
 
-import com.bushemi.model.FriendshipDto;
-import com.bushemi.model.PersonDto;
+import com.bushemi.model.entity.FriendshipDto;
+import com.bushemi.model.entity.PersonDto;
 
 import java.util.Collection;
 
@@ -15,5 +15,8 @@ public interface FriendshipDao  {
     void delete(FriendshipDto entity);
     void update(FriendshipDto entity);
     Collection<FriendshipDto> findAll();
-    Collection<FriendshipDto> findFriendsOf(PersonDto person);
+    Collection<FriendshipDto> findFriendshipsOf(PersonDto person);
+
+    Collection<FriendshipDto> findFriendshipsByPersonId(long id);
+    boolean isFriends(PersonDto person, PersonDto friend);
 }

@@ -4,8 +4,8 @@ import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.PersonDao;
 import com.bushemi.dao.entity.Person;
 import com.bushemi.dao.entity.Post;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PostDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PostDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class PersonDaoImpl implements PersonDao {
     public PersonDto update(PersonDto entity) {
         Session session = sessionFactory.getCurrentSession();
         Person person = EntityDtoConverter.convert(entity);
-        session.merge(person);
+        person = (Person) session.merge(person);
         return EntityDtoConverter.convert(person);
     }
 
@@ -73,8 +73,10 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void createLike(PersonDto personDto, PostDto postDto) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = EntityDtoConverter.convert(personDto);
-        Post post = EntityDtoConverter.convert(postDto);
+        Person person = (Person) session.get(Person.class, personDto.getId());
+        Post post = (Post) session.get(Post.class, postDto.getId());
+//        Person person = EntityDtoConverter.convert(personDto);
+//        Post post = EntityDtoConverter.convert(postDto);
         person.getLikes().add(post);
         post.getPostLikers().add(person);
         session.merge(person);
@@ -109,5 +111,19 @@ public class PersonDaoImpl implements PersonDao {
         });
 
         return personDtoSet;
+    }
+
+    @Override
+    public void disLike(PersonDto personDto, PostDto postDto) {
+        Session session = sessionFactory.getCurrentSession();
+//        Person person = EntityDtoConverter.convert(personDto);
+//        Post post = EntityDtoConverter.convert(postDto);
+        Person person = (Person) session.get(Person.class, personDto.getId());
+        Post post = (Post) session.get(Post.class, postDto.getId());
+//        session.merge(person);
+//        session.merge(post);
+        person.getLikes().remove(post);
+        post.getPostLikers().remove(person);
+        session.merge(person);
     }
 }

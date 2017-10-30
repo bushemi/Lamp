@@ -2,8 +2,8 @@ package com.bushemi.dao.impl;
 
 import com.bushemi.dao.PersonDao;
 import com.bushemi.dao.PostDao;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PostDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PostDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,7 +98,9 @@ public class PostDaoTest {
         personDao.createLike(eighth, post);
 
         Collection<PersonDto> allLikersForPost = postDao.findPostLikers(post);
+        System.out.println(allLikersForPost);
         Assert.notEmpty(allLikersForPost,"Can't find any likers for his post");
     }
+
 
 }

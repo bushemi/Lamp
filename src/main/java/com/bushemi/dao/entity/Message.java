@@ -17,7 +17,7 @@ public class Message {
     @Column(name = "CONTENT")
     private String content;
 
-    @Column(name = "TIME_SENT")
+    @Column(name = "TIME_SENT", nullable = false)
     private LocalDateTime timeSent;
 
     @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package com.bushemi.model;
+package com.bushemi.model.entity;
 
 import java.util.Objects;
 

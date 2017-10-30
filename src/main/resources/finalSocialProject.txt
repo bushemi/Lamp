@@ -1,0 +1,30 @@
+sign in
+	yes -> person
+	no
+sign up
+	yes -> person
+	no -> bad credentials
+	no -> is already registred
+
+user-> Person
+person  == my page
+	change private credentials
+	places
+	hobbies
+	friends
+	myPosts with likes and nickname of poster
+		new Post
+	messages
+
+person == someone else's page
+	readOnly - credentials
+		   friends
+		   places
+		   hobbies
+	posts with likes and share(post to my page)
+	send message
+		
+
+test service context сделать и из него получать сервис
+
+

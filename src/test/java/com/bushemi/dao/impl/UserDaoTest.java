@@ -2,8 +2,8 @@ package com.bushemi.dao.impl;
 
 import com.bushemi.dao.PersonDao;
 import com.bushemi.dao.UserDao;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.UserDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,8 +44,8 @@ public class UserDaoTest {
 
     @Test
     public void update() throws Exception {
-        PersonDto eighth = entityCreator.createNewPerson(personDao, "eighth" + PREFIX);
-        UserDto user = entityCreator.createNewUser(userDao, "eighth" + PREFIX, eighth);
+        PersonDto eighth = entityCreator.createNewPerson(personDao, "eleven" + PREFIX);
+        UserDto user = entityCreator.createNewUser(userDao, "eleven" + PREFIX, eighth);
         user.setEmail("miami@us.gov");
 
         userDao.update(user);
@@ -97,6 +97,29 @@ public class UserDaoTest {
         UserDto loadedUser = userDao.findByPerson(user.getPerson());
         Assert.notNull(loadedUser.getId(),"Finding user by person was failed");
     }
+    @Test
+    public void isLoginFree() throws Exception {
+        PersonDto seventh = entityCreator.createNewPerson(personDao, "eighth" + PREFIX);
+        UserDto user = entityCreator.createNewUser(userDao, "eighth" + PREFIX, seventh);
+        boolean loginFree = !userDao.isLoginFree(user.getLogin());
+        Assert.isTrue(loginFree,"userdao isLoginFree - broken");
+    }
+
+    @Test
+    public void getUserByLoginPassword() throws Exception {
+        PersonDto seventh = entityCreator.createNewPerson(personDao, "ninth" + PREFIX);
+        UserDto user = entityCreator.createNewUser(userDao, "ninth" + PREFIX, seventh);
+        UserDto userByLoginPassword = userDao.findUserByLoginPassword(user.getLogin(), user.getPassword());
+
+    }
+    @Test(expected = com.bushemi.exceptions.BadPasswordException.class)
+    public void getUserByBadLoginPassword() throws Exception {
+        PersonDto seventh = entityCreator.createNewPerson(personDao, "tenth" + PREFIX);
+        UserDto user = entityCreator.createNewUser(userDao, "tenth" + PREFIX, seventh);
+        UserDto userByLoginPassword = userDao.findUserByLoginPassword(user.getLogin(), user.getPassword()+"0");
+
+    }
+
 
 
 }

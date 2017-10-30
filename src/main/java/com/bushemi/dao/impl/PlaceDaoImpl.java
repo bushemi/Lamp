@@ -4,8 +4,8 @@ import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.PlaceDao;
 import com.bushemi.dao.entity.Person;
 import com.bushemi.dao.entity.Place;
-import com.bushemi.model.PersonDto;
-import com.bushemi.model.PlaceDto;
+import com.bushemi.model.entity.PersonDto;
+import com.bushemi.model.entity.PlaceDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,13 +81,20 @@ public class PlaceDaoImpl implements PlaceDao {
     public void addPersonToPlace(PersonDto personDto, PlaceDto placeDto) {
         Session session = sessionFactory.getCurrentSession();
         Place place = EntityDtoConverter.convert(placeDto);
-        Person person = EntityDtoConverter.convert(personDto);
         place = (Place) session.merge(place);
-        person = (Person) session.merge(person);
-
+        Person person = (Person) session.get(Person.class, personDto.getId());
+        if(!person.getPlaces().contains(place)){
         place.getPersonsFromPlace().add(person);
-        person.getPlaces().add(place);
+        person.getPlaces().add(place);}
 
         session.merge(place);
+    }
+
+    @Override
+    public Collection<PlaceDto> findPlacesByPersonId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Person person = (Person) session.get(Person.class, id);
+
+        return person.getPlaces().stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
     }
 }

@@ -1,5 +1,8 @@
 package com.bushemi.model;
 
+import com.bushemi.model.entity.HobbyDto;
+import com.bushemi.model.entity.PlaceDto;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;

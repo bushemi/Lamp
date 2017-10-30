@@ -3,8 +3,8 @@ package com.bushemi.dao.impl;
 import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.MessageDao;
 import com.bushemi.dao.entity.Message;
-import com.bushemi.model.MessageDto;
-import com.bushemi.model.PersonDto;
+import com.bushemi.model.entity.MessageDto;
+import com.bushemi.model.entity.PersonDto;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -112,4 +112,17 @@ public class MessageDaoImpl implements MessageDao {
 
         return messages.stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
     }
+
+    @Override
+    public Collection<MessageDto> findMessagesByPersonId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Message.class);
+
+        criteria.add(Restrictions.or(Restrictions.eq("personFrom.id", id)
+                ,Restrictions.eq("personTo.id", id)));
+
+        List<Message> messages = criteria.list();
+        return messages.stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
+    }
+
 }

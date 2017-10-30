@@ -4,8 +4,8 @@ import com.bushemi.converters.EntityDtoConverter;
 import com.bushemi.dao.HobbyDao;
 import com.bushemi.dao.entity.Hobby;
 import com.bushemi.dao.entity.Person;
-import com.bushemi.model.HobbyDto;
-import com.bushemi.model.PersonDto;
+import com.bushemi.model.entity.HobbyDto;
+import com.bushemi.model.entity.PersonDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,15 +75,14 @@ public class HobbyDaoImpl implements HobbyDao {
     @Override
     public Long addPersonToHobby(HobbyDto hobbyDto, PersonDto personDto) {
         Hobby hobby = EntityDtoConverter.convert(hobbyDto);
-        Person person = EntityDtoConverter.convert(personDto);
         Session session = sessionFactory.getCurrentSession();
-
         hobby = (Hobby) session.merge(hobby);
-        person = (Person) session.merge(person);
-
-        hobby.getPersonsWithHobby().add(person);
-        person.getHobbies().add(hobby);
-
+        Person person = (Person) session.get(Person.class, personDto.getId());
+        Collection<Person> personsWithHobby = hobby.getPersonsWithHobby();
+        if(!person.getHobbies().contains(hobby)) {
+            personsWithHobby.add(person);
+            person.getHobbies().add(hobby);
+        }
         session.merge(hobby);
         return hobby.getId();
     }
@@ -95,5 +94,13 @@ public class HobbyDaoImpl implements HobbyDao {
         hobby = (Hobby) session.get(Hobby.class, hobby.getId());
 
         return hobby.getPersonsWithHobby().stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<HobbyDto> findHobbiesByPersonId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Person person = (Person) session.get(Person.class, id);
+
+        return person.getHobbies().stream().map(EntityDtoConverter::convert).collect(Collectors.toList());
     }
 }
