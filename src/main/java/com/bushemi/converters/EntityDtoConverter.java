@@ -2,7 +2,7 @@ package com.bushemi.converters;
 
 
 import com.bushemi.dao.entity.*;
-import com.bushemi.model.*;
+import com.bushemi.model.entity.*;
 
 
 public final class EntityDtoConverter {
@@ -37,6 +37,8 @@ public final class EntityDtoConverter {
 		person.setLastName(personDto.getLastName());
 		person.setNickname(personDto.getNickname());
 		person.setBirthday(personDto.getBirthday());
+		if (personDto.getPhotoURL() != null){
+		person.setPhotoURL(personDto.getPhotoURL());}
 		return  person;
 	}
 
@@ -47,6 +49,8 @@ public final class EntityDtoConverter {
 		person.setLastName(personDao.getLastName());
 		person.setNickname(personDao.getNickname());
 		person.setBirthday(personDao.getBirthday());
+		if (personDao.getPhotoURL() != null){
+			person.setPhotoURL(personDao.getPhotoURL());}
 		return  person;
 	}
 

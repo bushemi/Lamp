@@ -1,7 +1,7 @@
 package com.bushemi.converters;
 
 import com.bushemi.dao.entity.*;
-import com.bushemi.model.*;
+import com.bushemi.model.entity.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class EntityDtoConverterTest {
     private static final double PLACE_LONGITUDE = 35.072183;
     private static final String POST_TITLE = "love";
     private static final String POST_CONTENT = "I love pepsi";
-
+    private static final String MY_PHOTO = "nudes";
 
 
     private Person getPersonDao(){
@@ -46,6 +46,7 @@ public class EntityDtoConverterTest {
         person.setFirstName(FIRST_NAME);
         person.setLastName(LAST_NAME);
         person.setNickname(NICKNAME);
+        person.setPhotoURL(MY_PHOTO);
         return  person;
     }
     private PersonDto getPersonDto(){
@@ -55,6 +56,7 @@ public class EntityDtoConverterTest {
         person.setFirstName(FIRST_NAME);
         person.setLastName(LAST_NAME);
         person.setNickname(NICKNAME);
+        person.setPhotoURL(MY_PHOTO);
         return  person;
     }
 
