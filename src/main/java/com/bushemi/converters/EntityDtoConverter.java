@@ -37,8 +37,8 @@ public final class EntityDtoConverter {
 		person.setLastName(personDto.getLastName());
 		person.setNickname(personDto.getNickname());
 		person.setBirthday(personDto.getBirthday());
-		if (personDto.getPhotoURL() != null){
-		person.setPhotoURL(personDto.getPhotoURL());}
+		if (personDto.getPhotoURL() != null){if(!personDto.getPhotoURL().trim().equals("")){
+		person.setPhotoURL(personDto.getPhotoURL());}}
 		return  person;
 	}
 
@@ -49,8 +49,8 @@ public final class EntityDtoConverter {
 		person.setLastName(personDao.getLastName());
 		person.setNickname(personDao.getNickname());
 		person.setBirthday(personDao.getBirthday());
-		if (personDao.getPhotoURL() != null){
-			person.setPhotoURL(personDao.getPhotoURL());}
+		if (personDao.getPhotoURL() != null){if(!personDao.getPhotoURL().trim().equals("")){
+			person.setPhotoURL(personDao.getPhotoURL());}}
 		return  person;
 	}
 
