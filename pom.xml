@@ -17,6 +17,7 @@
 
 
     <properties>
+        <final.name>final-webapp</final.name>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -25,25 +26,36 @@
         <jstl.version>1.2</jstl.version>
         <maxmind.geoip.version>1.2.10</maxmind.geoip.version>
         <jackson.version>1.9.10</jackson.version>
+        <junit.version>4.12</junit.version>
+        <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
+        <h2.version>1.4.195</h2.version>
+        <javaee.web.api.version>7.0</javaee.web.api.version>
+        <cjlib.version>2.2.2</cjlib.version>
+        <jackson.version>2.9.1</jackson.version>
+        <webjars.bootstrap.version>3.2.0</webjars.bootstrap.version>
+        <mysql.version>6.0.6</mysql.version>
+        <jquery.version>2.1.1</jquery.version>
+        <log4j.version>1.2.16</log4j.version>
+        <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>1.5.7.RELEASE</version>
+            <version>${spring.boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.195</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -52,7 +64,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
+            <version>${javaee.web.api.version}</version>
         </dependency>
         <!-- jstl -->
         <dependency>
@@ -72,7 +84,7 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>2.2.2</version>
+            <version>${cjlib.version}</version>
         </dependency>
 
         <dependency>
@@ -91,29 +103,29 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.1</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.9.1</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.1</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson</groupId>
             <artifactId>jackson-bom</artifactId>
-            <version>2.8.3</version>
+            <version>${jackson.version}</version>
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>3.2.0</version>
+            <version>${webjars.bootstrap.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.webjars</groupId>
@@ -125,30 +137,30 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>2.1.1</version>
+            <version>${jquery.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-            <version>1.5.7.RELEASE</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.5.7.RELEASE</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-dependencies</artifactId>
-            <version>1.5.7.RELEASE</version>
+            <version>${spring.boot.version}</version>
             <type>pom</type>
 
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
+            <version>${mysql.version}</version>
             <!--<scope>runtime</scope>-->
         </dependency>
 
@@ -181,7 +193,7 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
+            <version>${log4j.version}</version>
         </dependency>
 
     </dependencies>
@@ -189,12 +201,12 @@
 
 
     <build>
-        <finalName>final-webapp</finalName>
+        <finalName>${final.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
