@@ -1,3 +1,6 @@
+Developer's thoughts:
+
+
 sign in
 	yes -> person
 	no

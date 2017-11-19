@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
  *
  * @Version 1.0
  */
-@ContextConfiguration(locations = "classpath:app-context.xml")
+@ContextConfiguration(locations = "classpath:spring/app-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SpringContextTest {
     @Test
