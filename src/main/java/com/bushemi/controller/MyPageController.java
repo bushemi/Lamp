@@ -34,11 +34,11 @@ public class MyPageController {
     private InterestService interestService;
     @Autowired
     private MessageService messageService;
-    Long id;
+
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public String getLogin(Model model, HttpServletRequest request) {
-
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -62,19 +62,21 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value = "/myPlaces", method = RequestMethod.GET)
     public String getMyPlaces(HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
         request.getSession().setAttribute("placesInfo",
-                entityFindingByIdService.getPlacesDtoByPersonId(id).stream().map(PlaceInfo::new).collect(Collectors.toList()));
+            entityFindingByIdService.getPlacesDtoByPersonId(id).stream().map(PlaceInfo::new).collect(Collectors.toList()));
         request.getSession().setAttribute("listOfPlaces",
-                interestService.getAllPlaces().stream().map(PlaceInfo::new).collect(Collectors.toList()));
+            interestService.getAllPlaces().stream().map(PlaceInfo::new).collect(Collectors.toList()));
         return "";
     }
 
     @ResponseBody
     @RequestMapping(value = "/myHobbies", method = RequestMethod.GET)
     public String getMyHobbies(HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -87,18 +89,19 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value = "/myFriends", method = RequestMethod.GET)
     public String getMyFriends(HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
         request.getSession().setAttribute("friendshipsInfo",
-                entityFindingByIdService.getFriendshipsDtoByPersonId(id).stream().map(FriendshipInfo::new).collect(Collectors.toList()));
+            entityFindingByIdService.getFriendshipsDtoByPersonId(id).stream().map(FriendshipInfo::new).collect(Collectors.toList()));
         getAllPersons(request);
         return "";
     }
-
     @ResponseBody
     @RequestMapping(value = "/myPosts", method = RequestMethod.GET)
     public String getMyPosts(HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -107,11 +110,10 @@ public class MyPageController {
         getAllPosts(request);
         return "OK";
     }
-
     @ResponseBody
     @RequestMapping(value = "/myMessages", method = RequestMethod.GET)
     public String getMyMessages(HttpServletRequest request) {
-
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -120,11 +122,10 @@ public class MyPageController {
         getAllPersons(request);
         return "";
     }
-
-
     @ResponseBody
     @RequestMapping(value = "/newMessage", method = RequestMethod.POST)
     public String makeMessage(@RequestBody MessageInfo messageInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -133,10 +134,10 @@ public class MyPageController {
         messageService.createMessage(personFrom, personTo, messageInfo.getContent());
         return "OK";
     }
-
     @ResponseBody
     @RequestMapping(value = "/newPost", method = RequestMethod.POST)
     public String makePost(@RequestBody PostInfo postInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -147,6 +148,7 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value = "/newHobby", method = RequestMethod.POST)
     public String makeHobby(@RequestBody HobbyInfo hobbyInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -164,6 +166,7 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value = "/newPlace", method = RequestMethod.POST)
     public String makePlace(@RequestBody PlaceInfo placeInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -184,6 +187,7 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value = "/like", method = RequestMethod.POST)
     public String makeLike(@RequestBody PostInfo postInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -192,10 +196,10 @@ public class MyPageController {
         postService.createLike(person, post);
         return "OK";
     }
-
     @ResponseBody
     @RequestMapping(value = "/newFriend", method = RequestMethod.POST)
     public String newFriend(@RequestBody PersonInfo personInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
@@ -207,6 +211,7 @@ public class MyPageController {
     @ResponseBody
     @RequestMapping(value = "/endFriendship", method = RequestMethod.POST)
     public String unFriendship(@RequestBody PersonInfo personInfo, HttpServletRequest request) {
+        Long id;
         try {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
