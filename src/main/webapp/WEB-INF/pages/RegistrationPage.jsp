@@ -2,7 +2,7 @@
 <head>
     <title>Registration</title>
 
-    <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.7/css/bootstrap.min.css'>
     <link rel="stylesheet" href="/resources/core/Registration.css">
 
 </head>
@@ -42,9 +42,9 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/tether/1.4.0/src/js/tether.js"></script>
+<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/core/Registration.js"></script>
 
 </body>
