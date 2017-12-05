@@ -4,10 +4,10 @@ package com.bushemi.model;
 public class ResponseMessage {
 
 	private String status;
-	private PersonInfo personInfo;
+	private Object object;
 	private String errorMessage;
 
-	public static ResponseMessage okMessage(PersonInfo personInfo) {
+	public static ResponseMessage okMessage(Object personInfo) {
 		return new ResponseMessage("OK", personInfo);
 	}
 
@@ -15,9 +15,9 @@ public class ResponseMessage {
 		return new ResponseMessage("ERROR", message);
 	}
 
-	private ResponseMessage(String status, PersonInfo personStatus) {
+	private ResponseMessage(String status, Object personStatus) {
 		this.status = status;
-		this.personInfo = personStatus;
+		this.object = personStatus;
 	}
 
 	private ResponseMessage(String status, String errorMessage) {
@@ -29,11 +29,21 @@ public class ResponseMessage {
 		return status;
 	}
 
-	public PersonInfo getPersonInfo() {
-		return personInfo;
+	public Object getObject() {
+		return object;
 	}
 
 	public String getErrorMessage() {
 		return errorMessage;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("ResponseMessage{");
+		sb.append("status='").append(status).append('\'');
+		sb.append(", object=").append(object);
+		sb.append(", errorMessage='").append(errorMessage).append('\'');
+		sb.append('}');
+		return sb.toString();
 	}
 }
