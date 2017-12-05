@@ -21,6 +21,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <node.version>v5.12.0</node.version>
+        <npm.version>3.8.6</npm.version>
+        <frontend-maven-plugin.version>0.0.29</frontend-maven-plugin.version>
         <hibernate.version>4.3.7.Final</hibernate.version>
         <spring.version>4.3.11.RELEASE</spring.version>
         <jstl.version>1.2</jstl.version>
@@ -32,9 +35,13 @@
         <javaee.web.api.version>7.0</javaee.web.api.version>
         <cjlib.version>2.2.2</cjlib.version>
         <jackson.version>2.9.1</jackson.version>
-        <webjars.bootstrap.version>3.2.0</webjars.bootstrap.version>
+        <webjars.bootstrap.version>3.3.7</webjars.bootstrap.version>
+        <webjars.font.awesome.version>4.7.0</webjars.font.awesome.version>
+        <webjars.html5.shiv>3.7.3-1</webjars.html5.shiv>
+        <webjars.tether.version>1.4.0</webjars.tether.version>
+        <webjars.babel.core.version>6.26.0</webjars.babel.core.version>
+        <webjars.jquery.version>3.2.1</webjars.jquery.version>
         <mysql.version>6.0.6</mysql.version>
-        <jquery.version>2.1.1</jquery.version>
         <log4j.version>1.2.16</log4j.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
     </properties>
@@ -126,19 +133,23 @@
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>${webjars.bootstrap.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.webjars</groupId>
-                    <artifactId>jquery</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>${jquery.version}</version>
+            <version>${webjars.jquery.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${webjars.font.awesome.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>html5shiv</artifactId>
+            <version>${webjars.html5.shiv}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -238,6 +249,56 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>${frontend-maven-plugin.version}</version>
+                <configuration>
+                    <workingDirectory>src/main/frontend</workingDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>${node.version}</nodeVersion>
+                            <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
+                            <npmVersion>${npm.version}</npmVersion>
+                            <npmDownloadRoot>https://registry.npmjs.org/npm/-/</npmDownloadRoot>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm run build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                    <!-- <execution>
+                         <id>npm test</id>
+                         <goals>
+                             <goal>npm</goal>
+                         </goals>
+                         <phase>test</phase>
+                         <configuration>
+                             <arguments>test</arguments>
+                         </configuration>
+                     </execution>-->
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
