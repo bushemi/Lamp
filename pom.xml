@@ -249,56 +249,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>${frontend-maven-plugin.version}</version>
-                <configuration>
-                    <workingDirectory>src/main/frontend</workingDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <configuration>
-                            <nodeVersion>${node.version}</nodeVersion>
-                            <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
-                            <npmVersion>${npm.version}</npmVersion>
-                            <npmDownloadRoot>https://registry.npmjs.org/npm/-/</npmDownloadRoot>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>install</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm run build</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run build</arguments>
-                        </configuration>
-                    </execution>
-                    <!-- <execution>
-                         <id>npm test</id>
-                         <goals>
-                             <goal>npm</goal>
-                         </goals>
-                         <phase>test</phase>
-                         <configuration>
-                             <arguments>test</arguments>
-                         </configuration>
-                     </execution>-->
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

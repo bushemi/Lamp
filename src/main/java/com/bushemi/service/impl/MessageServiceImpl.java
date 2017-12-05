@@ -6,6 +6,7 @@ import com.bushemi.model.entity.PersonDto;
 import com.bushemi.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import java.util.Collection;
  * useless comment
  */
 @Service
+@Transactional
+
 public class MessageServiceImpl implements MessageService {
 
     private final MessageDao messageDao;

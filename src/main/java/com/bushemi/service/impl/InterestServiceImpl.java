@@ -8,6 +8,7 @@ import com.bushemi.model.entity.PlaceDto;
 import com.bushemi.service.InterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -16,6 +17,8 @@ import java.util.Collection;
  * useless comment
  */
 @Service
+@Transactional
+
 public class InterestServiceImpl implements InterestService {
     private final PlaceDao placeDao;
     private final HobbyDao hobbyDao;

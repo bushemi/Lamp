@@ -8,6 +8,7 @@ import com.bushemi.model.entity.PostLikesDto;
 import com.bushemi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,6 +18,8 @@ import java.util.Collection;
  * useless comment
  */
 @Service
+@Transactional
+
 public class PostServiceImpl implements PostService {
 
 

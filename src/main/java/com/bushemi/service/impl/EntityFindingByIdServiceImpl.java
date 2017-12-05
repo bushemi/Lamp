@@ -5,6 +5,7 @@ import com.bushemi.model.entity.*;
 import com.bushemi.service.EntityFindingByIdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -39,31 +40,37 @@ public class EntityFindingByIdServiceImpl implements EntityFindingByIdService {
     }
 
     @Override
+    @Transactional
     public Collection<PlaceDto> getPlacesDtoByPersonId(long id) {
         return placeDao.findPlacesByPersonId(id);
     }
 
     @Override
+    @Transactional
     public Collection<PostDto> getPostsDtoByOwnerId(long id) {
         return postDao.findPostsByOwnerId(id);
     }
 
     @Override
+    @Transactional
     public Collection<HobbyDto> getHobbiesDtoByPersonId(long id) {
         return hobbyDao.findHobbiesByPersonId(id);
     }
 
     @Override
+    @Transactional
     public Collection<FriendshipDto> getFriendshipsDtoByPersonId(long id) {
         return friendshipDao.findFriendshipsByPersonId(id);
     }
 
     @Override
+    @Transactional
     public Collection<MessageDto> getMessagesDtoByPersonId(long id) {
         return messageDao.findMessagesByPersonId(id);
     }
 
     @Override
+    @Transactional
     public PostDto getPostsDtoById(long id) {
         return postDao.findById(id);
     }

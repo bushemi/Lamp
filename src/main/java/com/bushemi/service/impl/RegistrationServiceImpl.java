@@ -9,6 +9,7 @@ import com.bushemi.model.entity.UserDto;
 import com.bushemi.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
@@ -17,6 +18,8 @@ import java.util.Random;
  * useless comment
  */
 @Service
+@Transactional
+
 public class RegistrationServiceImpl implements RegistrationService {
     final private PasswordEncoder encoder;
     final private UserDao userDao;

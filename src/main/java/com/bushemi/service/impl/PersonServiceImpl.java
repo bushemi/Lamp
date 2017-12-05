@@ -20,6 +20,8 @@ import java.util.Collection;
  * useless comment
  */
 @Service
+@Transactional
+
 public class PersonServiceImpl implements PersonService {
 
     final private FriendshipDao friendshipDao;
@@ -86,7 +88,6 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    @Transactional
     public void addFriendShip(PersonDto person, PersonDto friend) {
         FriendshipDto friendship = null;
         if (!friendshipDao.isFriends(person, friend)){
