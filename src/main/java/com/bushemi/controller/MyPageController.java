@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -43,85 +44,148 @@ public class MyPageController {
             id = getIdFromSession(request);
         }catch(NumberFormatException nfe){return "LoginPage";}
 
-        PersonInfo myself = getMyPersonInfoAndHideMyId(id);
-        request.getSession().setAttribute("personInfo", myself);
+//        PersonInfo myself = getMyPersonInfoAndHideMyId(id);
+//        request.getSession().setAttribute("personInfo", myself);
 
-        getMyPlaces(request);
-        getMyPosts(request);
-        getMyFriends(request);
-        getMyMessages(request);
-        getMyHobbies(request);
 
-        getAllPersons(request);
-        getAllPosts(request);
+//        getAllPosts(request);
         return "MyPage";
     }
+    @ResponseBody
+    @RequestMapping(value = "/allPosts", method = RequestMethod.GET)
+    private ResponseMessage getAllPosts(HttpServletRequest request) {
+        ResponseMessage message;
+        List<PostInfo> allPosts = postService.getAllPosts().stream().map((e) -> new PostInfo(e, postService.countLikesForPost(e))).collect(Collectors.toList());
+        request.getSession().setAttribute("listAllPosts",
+                allPosts);
+        message = ResponseMessage.okMessage(allPosts);
+        System.out.println(message);
+        return message;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/places", method = RequestMethod.GET)
+    public ResponseMessage getAllPlaces(HttpServletRequest request) {
+        ResponseMessage message;
+        List<PlaceInfo> places = interestService.getAllPlaces().stream().map(PlaceInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(places);
+        System.out.println(message);
+        return message;
+    }
 
+    @ResponseBody
+    @RequestMapping(value = "/hobbies", method = RequestMethod.GET)
+    public ResponseMessage getAllHobbies(HttpServletRequest request) {
+        ResponseMessage message;
+        List<HobbyInfo> hobbies = interestService.getAllHobbies().stream().map(HobbyInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(hobbies);
+        System.out.println(message);
+        return message;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/persons", method = RequestMethod.GET)
+    public ResponseMessage getAllPersons(HttpServletRequest request){
+        ResponseMessage message;
+        List<PersonInfo> persons = personService.findAllPersons().stream().map(PersonInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(persons);
+        System.out.println(message);
+        return message;
+    }
 
-
+    @ResponseBody
+    @RequestMapping(value = "/myInfo", method = RequestMethod.GET)
+    public Object getMyInfo(HttpServletRequest request) {
+        Long id;
+        ResponseMessage message;
+        try {
+            id = getIdFromSession(request);
+        }catch(NumberFormatException nfe){return message = ResponseMessage.errorMessage("fail to get id");}
+        PersonInfo myself = getMyPersonInfoAndHideMyId(id);
+        message = ResponseMessage.okMessage(myself);
+        System.out.println(message);
+        return message;
+    }
     @ResponseBody
     @RequestMapping(value = "/myPlaces", method = RequestMethod.GET)
-    public String getMyPlaces(HttpServletRequest request) {
+    public Object getMyPlaces(HttpServletRequest request) {
         Long id;
+        ResponseMessage message;
         try {
             id = getIdFromSession(request);
-        }catch(NumberFormatException nfe){return "LoginPage";}
-        request.getSession().setAttribute("placesInfo",
-            entityFindingByIdService.getPlacesDtoByPersonId(id).stream().map(PlaceInfo::new).collect(Collectors.toList()));
-        request.getSession().setAttribute("listOfPlaces",
-            interestService.getAllPlaces().stream().map(PlaceInfo::new).collect(Collectors.toList()));
-        return "";
+        }catch(NumberFormatException nfe){return message = ResponseMessage.errorMessage("fail to get id");}
+        List<PlaceInfo> myPlaces = entityFindingByIdService.getPlacesDtoByPersonId(id).stream().map(PlaceInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(myPlaces);
+        System.out.println(message);
+        return message;
     }
-
     @ResponseBody
     @RequestMapping(value = "/myHobbies", method = RequestMethod.GET)
-    public String getMyHobbies(HttpServletRequest request) {
+    public ResponseMessage getMyHobbies(HttpServletRequest request) {
         Long id;
+        ResponseMessage message;
         try {
             id = getIdFromSession(request);
-        }catch(NumberFormatException nfe){return "LoginPage";}
-        request.getSession().setAttribute("hobbiesInfo",
-                entityFindingByIdService.getHobbiesDtoByPersonId(id).stream().map(HobbyInfo::new).collect(Collectors.toList()));
-        request.getSession().setAttribute("listOfHobbies",
-                interestService.getAllHobbies().stream().map(HobbyInfo::new).collect(Collectors.toList()));
-        return "";
-    }
-    @ResponseBody
-    @RequestMapping(value = "/myFriends", method = RequestMethod.GET)
-    public String getMyFriends(HttpServletRequest request) {
-        Long id;
-        try {
-            id = getIdFromSession(request);
-        }catch(NumberFormatException nfe){return "LoginPage";}
-        request.getSession().setAttribute("friendshipsInfo",
-            entityFindingByIdService.getFriendshipsDtoByPersonId(id).stream().map(FriendshipInfo::new).collect(Collectors.toList()));
-        getAllPersons(request);
-        return "";
-    }
-    @ResponseBody
-    @RequestMapping(value = "/myPosts", method = RequestMethod.GET)
-    public String getMyPosts(HttpServletRequest request) {
-        Long id;
-        try {
-            id = getIdFromSession(request);
-        }catch(NumberFormatException nfe){return "LoginPage";}
-        request.getSession().setAttribute("postsInfo",
-                entityFindingByIdService.getPostsDtoByOwnerId(id).stream().map((e) -> new PostInfo(e, postService.countLikesForPost(e))).collect(Collectors.toList()));
-        getAllPosts(request);
-        return "OK";
+        }catch(NumberFormatException nfe){return message = ResponseMessage.errorMessage("fail to get id");}
+        List<HobbyInfo> hobbies = entityFindingByIdService.getHobbiesDtoByPersonId(id).stream().map(HobbyInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(hobbies);
+        System.out.println(message);
+
+        return message;
     }
     @ResponseBody
     @RequestMapping(value = "/myMessages", method = RequestMethod.GET)
-    public String getMyMessages(HttpServletRequest request) {
+    public ResponseMessage getMyMessages(HttpServletRequest request) {
         Long id;
+        ResponseMessage message;
         try {
             id = getIdFromSession(request);
-        }catch(NumberFormatException nfe){return "LoginPage";}
-        request.getSession().setAttribute("messagesInfo",
-                entityFindingByIdService.getMessagesDtoByPersonId(id).stream().map(MessageInfo::new).collect(Collectors.toList()));
-        getAllPersons(request);
-        return "";
+        }catch(NumberFormatException nfe){return message = ResponseMessage.errorMessage("fail to get id");}
+        List<MessageInfo> messages = entityFindingByIdService.getMessagesDtoByPersonId(id).stream().map(MessageInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(messages);
+        System.out.println(message);
+
+        return message;
     }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/myFriends", method = RequestMethod.GET)
+    public ResponseMessage getMyFriends(HttpServletRequest request) {
+        Long id;
+        ResponseMessage message;
+        try {
+            id = getIdFromSession(request);
+        }catch(NumberFormatException nfe){return message = ResponseMessage.errorMessage("fail to get id");}
+        List<FriendshipInfo> friendships = entityFindingByIdService.getFriendshipsDtoByPersonId(id).stream().map(FriendshipInfo::new).collect(Collectors.toList());
+        message = ResponseMessage.okMessage(friendships);
+        System.out.println(message);
+
+        return message;
+    }
+
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/myPosts", method = RequestMethod.GET)
+    public ResponseMessage getMyPosts(HttpServletRequest request) {
+        Long id;
+        ResponseMessage message;
+        try {
+            id = getIdFromSession(request);
+        }catch(NumberFormatException nfe){return message = ResponseMessage.errorMessage("fail to get id");}
+        List<PostInfo> myPosts = entityFindingByIdService.getPostsDtoByOwnerId(id).stream().map((e) -> new PostInfo(e, postService.countLikesForPost(e))).collect(Collectors.toList());
+        getAllPosts(request);
+        message = ResponseMessage.okMessage(myPosts);
+        System.out.println(message);
+
+        return message;
+    }
+
+
+
+
+
     @ResponseBody
     @RequestMapping(value = "/newMessage", method = RequestMethod.POST)
     public String makeMessage(@RequestBody MessageInfo messageInfo, HttpServletRequest request) {
@@ -230,10 +294,7 @@ public class MyPageController {
 
 
 
-    private void getAllPosts(HttpServletRequest request) {
-        request.getSession().setAttribute("listAllPosts",
-                postService.getAllPosts().stream().map((e) -> new PostInfo(e, postService.countLikesForPost(e))).collect(Collectors.toList()));
-    }
+
 
     private long getIdFromSession(HttpServletRequest request) {
         long id;
@@ -247,8 +308,5 @@ public class MyPageController {
         personInfo.setId(0l);
         return personInfo;
     }
-    private void getAllPersons(HttpServletRequest request){
-        request.getSession().setAttribute("listOfPersons",
-                personService.findAllPersons().stream().map(PersonInfo::new).collect(Collectors.toList()));
-    }
+
 }
