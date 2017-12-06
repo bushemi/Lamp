@@ -17,7 +17,7 @@ $(document).ready(function () {
 
      $.getJSON("/myInfo", jsonMyInfoParser);
 
-     $.getJSON("/allPosts", jsonAllPostsParser);
+     // $.getJSON("/allPosts", jsonAllPostsParser);
     // $.getJSON("/places", jsonAllPlacesParser);
 
 
@@ -446,13 +446,13 @@ $(document).ready(function () {
         if (id != ("")) {
             ajaxPost("/newFriend",'{"id": "' + id + '"}');
         }else{alert("you didn't choose who do you want to be friend with");}
-        window.setTimeout(function(){$.getJSON("/myFriends", jsonFriendsParser);}, 1000);
+        window.setTimeout(function(){$.getJSON("/myFriends", jsonFriendsParser);}, 1500);
 
     }
     function endFriendship(me,one,two){
         var nickname = (me===one)?two:one;
         ajaxPost("/endFriendship",'{"nickname": "' + nickname + '"}');
-        window.setTimeout(function(){$.getJSON("/myFriends", jsonFriendsParser);}, 1000);
+        window.setTimeout(function(){$.getJSON("/myFriends", jsonFriendsParser);}, 1500);
 
     }
     function createLike(id){

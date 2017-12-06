@@ -21,7 +21,6 @@ import java.util.Collection;
  */
 @Service
 @Transactional
-
 public class PersonServiceImpl implements PersonService {
 
     final private FriendshipDao friendshipDao;

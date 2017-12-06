@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-
 public class AuthorizationServiceImpl implements AuthorizationService {
     private PasswordEncoder encoder;
     private UserDao userDao;

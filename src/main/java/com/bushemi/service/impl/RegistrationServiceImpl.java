@@ -19,7 +19,6 @@ import java.util.Random;
  */
 @Service
 @Transactional
-
 public class RegistrationServiceImpl implements RegistrationService {
     final private PasswordEncoder encoder;
     final private UserDao userDao;

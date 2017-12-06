@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by igor on 27.10.17.
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @ContextConfiguration(locations = "classpath:app-context-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class PostServiceImplTest {
     @Autowired
     PostService postService;

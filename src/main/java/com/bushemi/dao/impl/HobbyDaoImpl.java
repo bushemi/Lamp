@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
  * useless comment
  */
 @Repository
-@Transactional
 public class HobbyDaoImpl implements HobbyDao {
     private final SessionFactory sessionFactory;
 
@@ -51,7 +49,7 @@ public class HobbyDaoImpl implements HobbyDao {
     @Override
     public void delete(HobbyDto entity) {
         Session session = sessionFactory.getCurrentSession();
-        Hobby hobby = EntityDtoConverter.convert(entity);
+        Hobby hobby = (Hobby) session.get(Hobby.class,entity.getId());
 
         session.delete(hobby);
     }
@@ -60,7 +58,7 @@ public class HobbyDaoImpl implements HobbyDao {
     public HobbyDto update(HobbyDto entity) {
         Session session = sessionFactory.getCurrentSession();
         Hobby hobby = EntityDtoConverter.convert(entity);
-        session.update(hobby);
+        session.merge(hobby);
         return EntityDtoConverter.convert(hobby);
     }
 

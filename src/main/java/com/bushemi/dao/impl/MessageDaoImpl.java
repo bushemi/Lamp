@@ -11,7 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * useless comment
  */
 @Repository
-@Transactional
 public class MessageDaoImpl implements MessageDao {
     private final SessionFactory sessionFactory;
 
@@ -52,8 +50,9 @@ public class MessageDaoImpl implements MessageDao {
 
     @Override
     public void delete(MessageDto entity) {
-        Message message = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
+        Message message = (Message) session.get(Message.class, entity.getId());
+
         session.delete(message);
     }
 
@@ -61,7 +60,7 @@ public class MessageDaoImpl implements MessageDao {
     public MessageDto update(MessageDto entity) {
         Message message = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
-        session.update(message);
+        session.merge(message);
         return EntityDtoConverter.convert(message);
     }
 

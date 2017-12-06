@@ -18,7 +18,6 @@ import java.util.Collection;
  */
 @Service
 @Transactional
-
 public class MessageServiceImpl implements MessageService {
 
     private final MessageDao messageDao;

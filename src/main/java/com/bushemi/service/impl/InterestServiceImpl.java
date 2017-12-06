@@ -18,7 +18,6 @@ import java.util.Collection;
  */
 @Service
 @Transactional
-
 public class InterestServiceImpl implements InterestService {
     private final PlaceDao placeDao;
     private final HobbyDao hobbyDao;

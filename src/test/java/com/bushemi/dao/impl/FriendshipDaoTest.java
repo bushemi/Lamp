@@ -4,6 +4,7 @@ import com.bushemi.dao.FriendshipDao;
 import com.bushemi.dao.PersonDao;
 import com.bushemi.model.entity.FriendshipDto;
 import com.bushemi.model.entity.PersonDto;
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -24,6 +26,7 @@ import java.util.Collection;
  */
 @ContextConfiguration(locations = "classpath:app-context-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class FriendshipDaoTest {
     @Autowired
     PersonDao personDao;
@@ -52,6 +55,8 @@ public class FriendshipDaoTest {
         try {
             FriendshipDto friendship2 = entityCreator.createNewFriendship(friendshipDao, first, second);
         }catch(ConstraintViolationException e){
+            throw new DataIntegrityViolationException("",e);
+        }catch(NonUniqueObjectException e){
             throw new DataIntegrityViolationException("",e);
         }
 

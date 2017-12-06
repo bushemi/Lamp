@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
 	@Transactional
 	public void delete(UserDto entity) {
 		Session session = sessionFactory.getCurrentSession();
-		User user = EntityDtoConverter.convert(entity);
+		User user = (User) session.get(User.class, entity.getId());
 		session.delete(user);
 
 	}
@@ -84,7 +84,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	@Transactional
 	public UserDto update(UserDto userDto) {
 
 		Session session = sessionFactory.getCurrentSession();

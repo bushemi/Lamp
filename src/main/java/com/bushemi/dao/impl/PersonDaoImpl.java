@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * useless comment
  */
 @Repository
-@Transactional
 public class PersonDaoImpl implements PersonDao {
     private final SessionFactory sessionFactory;
 
@@ -50,7 +48,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void delete(PersonDto entity) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = EntityDtoConverter.convert(entity);
+        Person person = (Person) session.get(Person.class, entity.getId());
         session.delete(person);
     }
 

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.Collection;
  */
 @ContextConfiguration(locations = "classpath:app-context-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class PostDaoTest {
     @Autowired
     PersonDao personDao;

@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
  * useless comment
  */
 @Repository
-@Transactional
 public class PlaceDaoImpl implements PlaceDao {
     private final SessionFactory sessionFactory;
 
@@ -48,8 +46,8 @@ public class PlaceDaoImpl implements PlaceDao {
 
     @Override
     public void delete(PlaceDto entity) {
-        Place place = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
+        Place place = (Place) session.get(Place.class, entity.getId());
         session.delete(place);
     }
 
@@ -57,7 +55,7 @@ public class PlaceDaoImpl implements PlaceDao {
     public PlaceDto update(PlaceDto entity) {
         Place place = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
-        session.update(place);
+        session.merge(place);
         return EntityDtoConverter.convert(place);
     }
 

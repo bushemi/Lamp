@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * useless comment
  */
 @Repository
-@Transactional
 public class PostDaoImpl implements PostDao {
     private final SessionFactory sessionFactory;
 
@@ -33,7 +32,7 @@ public class PostDaoImpl implements PostDao {
     public Long create(PostDto entity) {
         Post post = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(post.getOwner());
+        session.merge(post.getOwner());
         session.save(post);
         return post.getId();
     }
@@ -48,15 +47,15 @@ public class PostDaoImpl implements PostDao {
     @Override
     public void delete(PostDto entity) {
         Session session = sessionFactory.getCurrentSession();
-        Post person = EntityDtoConverter.convert(entity);
-        session.delete(person);
+        Post post = (Post) session.get(Post.class, entity.getId());
+        session.delete(post);
     }
 
     @Override
     public PostDto update(PostDto entity) {
         Session session = sessionFactory.getCurrentSession();
         Post post = EntityDtoConverter.convert(entity);
-        session.update(post);
+        session.merge(post);
         return EntityDtoConverter.convert(post);
     }
 

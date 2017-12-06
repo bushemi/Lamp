@@ -16,6 +16,7 @@ import java.util.Collection;
  * This service helps to find entities when we know person id
  */
 @Service
+@Transactional
 public class EntityFindingByIdServiceImpl implements EntityFindingByIdService {
     private final FriendshipDao friendshipDao;
     private final PersonDao personDao;
@@ -40,37 +41,31 @@ public class EntityFindingByIdServiceImpl implements EntityFindingByIdService {
     }
 
     @Override
-    @Transactional
     public Collection<PlaceDto> getPlacesDtoByPersonId(long id) {
         return placeDao.findPlacesByPersonId(id);
     }
 
     @Override
-    @Transactional
     public Collection<PostDto> getPostsDtoByOwnerId(long id) {
         return postDao.findPostsByOwnerId(id);
     }
 
     @Override
-    @Transactional
     public Collection<HobbyDto> getHobbiesDtoByPersonId(long id) {
         return hobbyDao.findHobbiesByPersonId(id);
     }
 
     @Override
-    @Transactional
     public Collection<FriendshipDto> getFriendshipsDtoByPersonId(long id) {
         return friendshipDao.findFriendshipsByPersonId(id);
     }
 
     @Override
-    @Transactional
     public Collection<MessageDto> getMessagesDtoByPersonId(long id) {
         return messageDao.findMessagesByPersonId(id);
     }
 
     @Override
-    @Transactional
     public PostDto getPostsDtoById(long id) {
         return postDao.findById(id);
     }

@@ -11,7 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +23,6 @@ import static java.util.stream.Collectors.toList;
  * 1.1 - was added isFriends();
  */
 @Repository
-@Transactional
 public class FriendshipDaoImpl implements FriendshipDao {
     private final SessionFactory sessionFactory;
 
@@ -57,7 +55,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     public void update(FriendshipDto entity) {
         Friendship friends = EntityDtoConverter.convert(entity);
         Session session = sessionFactory.getCurrentSession();
-        session.update(friends);
+        session.merge(friends);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
@@ -23,13 +24,14 @@ import java.util.Collection;
  */
 @ContextConfiguration(locations = "classpath:app-context-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class PersonDaoTest {
     @Autowired
     private PersonDao personDao;
     @Autowired
     private PostDao postDao;
     @Autowired
-    FriendshipDao friendshipDao;
+    private FriendshipDao friendshipDao;
 
     private EntityCreatorForDaoTests entityCreator;
 
@@ -101,13 +103,8 @@ public class PersonDaoTest {
         PersonDto first = entityCreator.createNewPerson(personDao, "seventh7");
 
         PostDto post = entityCreator.createNewPost(postDao,first);
-//        post.setTitle("Title");
-//        post.setContent("My post begins from uppercase letter.");
-//        post.setOwner(first);
-//        post.setPlaceTime(LocalDateTime.now());
         personDao.createLike(first, post);
         Collection<PostDto> likes = personDao.findLikes(first);
-//        System.out.println(likes.size());
 
         Assert.notEmpty(likes,"Can't find any likes for this person with id:" + first.getId());
     }
